@@ -1,5 +1,13 @@
 # Poker evaluator / three-player river research
 
+## Desktop studio / 映像入力・データベース・GUI
+
+録画・配信映像のスクリーンショット／動画フレームを取り込み、読取領域を指定し、
+確認済みの入力と研究用EVをSQLiteへ保存できるデスクトップGUIを追加しました。
+起動: `powershell -ExecutionPolicy Bypass -File scripts/start_studio.ps1`
+（初回の環境構築・操作・拡張方法は [Studio documentation](docs/studio.md)）。
+カード自動認識・OCRは今後接続する接口を用意した段階です。現時点では人が確認・入力します。
+
 Existing heads-up CFR, DealDistribution, game state and card evaluation code are
 preserved. The experimental engine lives independently in `multiway/` and reuses
 the existing real-card `HandCombo`, range parser and seven-card evaluator.

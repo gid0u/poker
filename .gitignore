@@ -8,3 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+.venv-studio/
+
+# Local studio evidence and databases (never publish recording data)
+data/local/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm

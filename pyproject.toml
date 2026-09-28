@@ -1,13 +1,19 @@
 [project]
 name = "poker-evaluator"
 version = "0.1.0"
-description = "Add your description here"
+description = "Poker evaluation and recorded-video research studio"
 readme = "README.md"
 authors = [
     { name = "儀同三司", email = "yuk.beryllium@gmail.com" }
 ]
 requires-python = ">=3.13"
 dependencies = []
+
+[project.optional-dependencies]
+media = ["opencv-python>=4.10", "Pillow>=10"]
+
+[project.scripts]
+poker-studio = "poker_evaluator.gui:main"
 
 [build-system]
 requires = ["uv_build>=0.11.31,<0.12.0"]
