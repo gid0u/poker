@@ -1,0 +1,26 @@
+{
+  "board": [
+    "Ks",
+    "8h",
+    "7d",
+    "3c",
+    "2s"
+  ],
+  "ranges": [
+    "AA,QQ",
+    "KK,JJ",
+    "88,TT"
+  ],
+  "pot": 100,
+  "bet": 50,
+  "stacks": [
+    100,
+    100,
+    100
+  ],
+  "iterations": 1000,
+  "samples": 10000,
+  "seed": 42,
+  "training_mode": "exact",
+  "evaluation_mode": "sampling"
+}
