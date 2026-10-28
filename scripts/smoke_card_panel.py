@@ -10,12 +10,12 @@ try:
     panel.card_buttons['As'].invoke()
     panel.card_buttons['As'].invoke()
     assert panel.tokens==['As']
-    panel.rank.set('X'); panel.suit.set(''); panel.choose_wild()
-    panel.suit.set('s'); panel.choose_wild()
+    panel.wild_buttons['X'].invoke()
+    panel.wild_buttons['Xs'].invoke()
     assert panel.tokens==['As','X1','X2s']
     panel.select(1); panel.remove()
     assert panel.tokens==['As','X1s']
-    panel.rank.set('Q'); panel.suit.set('o'); panel.choose_wild()
+    panel.wild_buttons['Qo'].invoke()
     panel.apply()
     assert entry.get()=='As X1s Qo'
     panel=CardPanel(root,entry,wild=True)

@@ -37,17 +37,23 @@ class CardPanel(tk.Toplevel):
                                    command=lambda t=token: self.choose(t))
                 button.grid(row=row, column=col, padx=2, pady=2)
                 self.card_buttons[token] = button
+        self.wild_buttons = {}
         if wild:
-            area = ttk.LabelFrame(self, text='ワイルドカード：ランクとスート条件を選んで追加', padding=8)
+            area = ttk.LabelFrame(self, text='ワイルドカード一覧：カードを直接クリック', padding=8)
             area.pack(fill='x', padx=10)
-            self.rank = tk.StringVar(value='X')
-            self.suit = tk.StringVar(value='')
-            for col, rank in enumerate('X'+RANKS):
-                ttk.Radiobutton(area, text='未知' if rank=='X' else rank, variable=self.rank, value=rank).grid(row=0,column=col)
-            for col, (label, suit) in enumerate((('指定なし',''),('♠','s'),('♣','c'),('♥','h'),('♦','d'),('O','o'),('P','p'),('Q','q'),('R','r'))):
-                ttk.Radiobutton(area, text=label, variable=self.suit, value=suit).grid(row=1,column=col)
-            ttk.Button(area, text='条件カードを追加／置換', command=self.choose_wild).grid(row=2,column=0,columnspan=7,sticky='w')
-            ttk.Label(area, text='同じO/P/Q/Rは同じスート。X番号は出現順に自動設定。').grid(row=3,column=0,columnspan=14,sticky='w')
+            for col, (label, token) in enumerate((('X 無条件','X'),('X♠','Xs'),('X♣','Xc'),('X♥','Xh'),('X♦','Xd'),('XO','Xo'),('XP','Xp'),('XQ','Xq'),('XR','Xr'))):
+                button = tk.Button(area, text=label, width=7 if col==0 else 4,
+                                   background='#e5dcfa', command=lambda t=token:self.choose(t))
+                button.grid(row=0,column=col,padx=2,pady=3)
+                self.wild_buttons[token] = button
+            for row, suit in enumerate('opqr', start=1):
+                for col, rank in enumerate(RANKS):
+                    token = rank+suit
+                    button = tk.Button(area,text=rank+suit.upper(),width=4,
+                                       background='#e5dcfa',command=lambda t=token:self.choose(t))
+                    button.grid(row=row,column=col,padx=2,pady=2)
+                    self.wild_buttons[token] = button
+            ttk.Label(area,text='Xは押すたびX1、X2…になります。同じO/P/Q/Rは同じ未知スート。').grid(row=5,column=0,columnspan=13,sticky='w')
         self.note = tk.StringVar()
         ttk.Label(self, textvariable=self.note).pack(padx=10,pady=5)
         bar = ttk.Frame(self, padding=10)
@@ -88,13 +94,6 @@ class CardPanel(tk.Toplevel):
         self.selected = None
         self.note.set('')
         self.refresh()
-
-    def choose_wild(self):
-        rank,suit = self.rank.get(),self.suit.get()
-        if rank != 'X' and not suit:
-            self.note.set('ランクを指定したカードにはスート条件を選んでください。')
-            return
-        self.choose(rank+suit)
 
     def remove(self):
         if self.tokens:
