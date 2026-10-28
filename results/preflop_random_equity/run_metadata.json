@@ -1,0 +1,26 @@
+{
+  "method": "independent Monte Carlo, 169 SeedSequence child streams",
+  "seed": 20261028,
+  "samples_per_class": 1000000,
+  "total_samples": 169000000,
+  "hero": "fixed real-card representative per suit-isomorphic class",
+  "board": "unknown; 5 shared cards",
+  "opponent_count": 1,
+  "opponent_range": "uniform legal 2-card combo from remaining 50 cards",
+  "sampling": "draw 7 distinct cards uniformly from remaining 50; first 2 opponent, last 5 board",
+  "equity": "P(win)+P(tie)/2",
+  "confidence_interval": "per-hand normal approximation 95%, not simultaneous across 169 hands",
+  "exact_joint_deals_per_class": 2097572400,
+  "rank_moments": "reused exact uniform C(50,5) moments; random opponent leaves board marginal unchanged",
+  "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944",
+  "numpy_version": "2.5.3",
+  "elapsed_seconds": 165.55479192733765,
+  "validation": {
+    "independent_rank_checks": 128,
+    "max_abs_rank_mean_z": 2.741770380476139,
+    "combo_weighted_equity": 0.5000298514328808,
+    "combo_weighted_equity_se": 4.1198142257136214e-05,
+    "expected_combo_weighted_equity": 0.5
+  },
+  "limits": "all players reach showdown; no fold, betting, rake; close estimated rankings can reverse within sampling error"
+}

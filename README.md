@@ -131,3 +131,5 @@ reproducibility, validation, regret matching and routing. Existing tests remain
 unchanged. Follow-up research: more boards/ranges/seeds/bet sizes, independent
 best-response diagnostics, sampled training, general betting trees and a fully
 validated HU continuation adapter.
+
+プリフロップ169種類のランダム1人に対する勝率・エクイティと散布図: [調査結果](results/preflop_random_equity/README.md)。
