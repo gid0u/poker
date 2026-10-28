@@ -54,6 +54,7 @@ class PokerStudio(ttk.Frame):
         self.build_input()
         self.build_analysis()
         self.build_history()
+        self.build_wildcards()
         ttk.Label(self, textvariable=self.status, wraplength=1050).pack(fill="x", pady=(10, 0))
         ttk.Label(self, text=f"保存先: {repository.path}", foreground="#667788").pack(anchor="w")
         self.refresh_sessions()
@@ -133,6 +134,74 @@ class PokerStudio(ttk.Frame):
             table.column(name, width=200, anchor="w")
         table.pack(fill="both", expand=True)
         return table
+
+    def build_wildcards(self):
+        tab = ttk.Frame(self.tabs, padding=16)
+        self.tabs.add(tab, text="4  ワイルドカード")
+        ttk.Label(tab, text="未知カードの条件下で成立する全ハンドの加重平均", font=("Segoe UI", 15, "bold")).pack(anchor="w")
+        ttk.Label(tab, text="X1・X2: 未知カード / X2s: スペード限定 / Qo・Jo: 同一の未知スートO\nO/P/Q/Rは異なる実スートに割当て、確定済みのS/C/H/Dを除外します。", wraplength=1000).pack(anchor="w", pady=10)
+        self.wildcard_entry = ttk.Entry(tab, width=90)
+        self.wildcard_entry.insert(0, "As Ks Qs Js 2c 3d X1s")
+        self.wildcard_entry.pack(fill="x", pady=8)
+        ttk.Label(tab, text="除外カード（任意、空白区切り）").pack(anchor="w")
+        self.wildcard_dead = ttk.Entry(tab)
+        self.wildcard_dead.pack(fill="x", pady=5)
+        ttk.Label(tab, text='カード重み（任意、JSON。例: {"Ts": 5}。未指定は1）').pack(anchor="w")
+        self.wildcard_weights = ttk.Entry(tab)
+        self.wildcard_weights.insert(0, "{}")
+        self.wildcard_weights.pack(fill="x", pady=5)
+        buttons = ttk.Frame(tab)
+        buttons.pack(fill="x", pady=10)
+        ttk.Button(buttons, text="条件を展開して評価", command=self.analyze_wildcards).pack(side="left")
+        ttk.Button(buttons, text="分布をJSON保存", command=self.export_wildcards).pack(side="right")
+        self.wildcard_text = tk.Text(tab, height=16, wrap="word", state="disabled")
+        self.wildcard_text.pack(fill="both", expand=True)
+        self.wildcard_result = None
+        ttk.Label(tab, text="小さい平均順位ほど強い評価です。勝率・GTOではありません。一般の展開は100万候補まで。\n7枚すべて無条件Xの場合は全52C7辞書を直接集計します。", wraplength=1000).pack(anchor="w", pady=8)
+
+    def analyze_wildcards(self):
+        if not self.guard():
+            return
+        from .seven_card_dictionary import SevenCardRankDictionary
+        from .wildcards import WildcardPattern
+        try:
+            pattern = WildcardPattern.parse(self.wildcard_entry.get())
+            dead = tuple(self.wildcard_dead.get().split())
+            weights = json.loads(self.wildcard_weights.get() or "{}")
+            if not isinstance(weights, dict):
+                raise ValueError("重みはカード名と数値のJSONオブジェクトにしてください")
+            def task():
+                with SevenCardRankDictionary() as table:
+                    return table.evaluate_wildcards(pattern, dead_cards=dead, card_weights=weights)
+            self.run(task, self.wildcards_done)
+        except (ValueError, TypeError) as exc:
+            messagebox.showerror("ワイルドカード入力", str(exc))
+
+    def wildcards_done(self, result):
+        from dataclasses import asdict
+        self.wildcard_result = asdict(result)
+        lines = [f"正規化: {result.normalized}", f"正の重みを持つ実ハンド集合: {result.legal_hands:,}",
+                 f"重み合計: {result.total_weight:,.6f}", f"平均順位（1が最強）: {result.mean_rank:.6f}",
+                 f"平均強度（7463 − 順位）: {result.mean_strength:.6f}",
+                 f"最強順位: {result.best_rank} / 最弱順位: {result.worst_rank}", "", "役の確率:"]
+        lines += [f"  {name}: {probability:.6%}" for name, probability in result.category_probabilities.items()]
+        self.wildcard_text.configure(state="normal")
+        self.wildcard_text.delete("1.0", "end")
+        self.wildcard_text.insert("end", "\n".join(lines))
+        self.wildcard_text.configure(state="disabled")
+        self.status.set("全成立ハンドの加重平均を計算しました。必要に応じて分布をJSON保存してください。")
+
+    def export_wildcards(self):
+        if self.wildcard_result is None:
+            messagebox.showinfo("JSON", "計算結果がありません")
+            return
+        path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON", "*.json")])
+        if path:
+            try:
+                Path(path).write_text(json.dumps(self.wildcard_result, indent=2), encoding="utf-8")
+                self.status.set("ワイルドカード評価結果を保存しました。")
+            except OSError as exc:
+                messagebox.showerror("保存", str(exc))
 
     def session_id(self):
         index = self.session_choice.current()

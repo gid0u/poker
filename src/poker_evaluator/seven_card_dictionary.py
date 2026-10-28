@@ -111,6 +111,11 @@ class SevenCardRankDictionary(Mapping):
     def category(self, cards):
         return CATEGORY_NAMES[self.value(cards)[0]]
 
+    def evaluate_wildcards(self, pattern, **options):
+        """Return the exact conditional mean/distribution, not the best completion."""
+        from .wildcards import evaluate_wildcards
+        return evaluate_wildcards(pattern, ranker=self, **options)
+
     def __len__(self):
         return HAND_COUNT
 
