@@ -116,6 +116,27 @@ class SevenCardRankDictionary(Mapping):
         from .wildcards import evaluate_wildcards
         return evaluate_wildcards(pattern, ranker=self, **options)
 
+    @property
+    def all_hands_statistics(self):
+        """Registered baseline over all explicit hands, without wildcard expansion."""
+        result = json.loads((self.directory / "all_hands_average.json").read_text(encoding="utf-8"))
+        if (result.get("key") != "all_explicit_seven_card_hands"
+                or result.get("hand_count") != HAND_COUNT
+                or result.get("sha256") != self.manifest["sha256"]
+                or result.get("wildcard_used") is not False):
+            raise ValueError("Statistics do not match this dictionary")
+        counts = {int(r): n for r, n in result["rank_counts"].items()}
+        if (any(not 1 <= r <= 7462 or type(n) is not int or n <= 0 for r, n in counts.items())
+                or sum(counts.values()) != HAND_COUNT
+                or sum(r*n for r, n in counts.items()) != result["rank_sum"]
+                or result["mean_rank"] != result["rank_sum"] / HAND_COUNT):
+            raise ValueError("Inconsistent registered statistics")
+        return result
+
+    @property
+    def all_hands_average_rank(self):
+        return self.all_hands_statistics["mean_rank"]
+
     def __len__(self):
         return HAND_COUNT
 

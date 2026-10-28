@@ -1,5 +1,8 @@
 # Poker evaluator / three-player river research
 
+全確定7枚ハンド133,784,560件の総走査による平均順位 **4095.883590542884769…** を
+辞書へ登録しました。`table.all_hands_average_rank` で参照できます。
+
 ## ワイルドカード
 
 `X1 X2`、`X2s`、`Qo` などの未知カード・共有スート変数に対応しました。

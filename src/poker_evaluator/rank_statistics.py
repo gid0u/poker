@@ -1,0 +1,74 @@
+"""Register exact population statistics by scanning every stored concrete hand."""
+from array import array
+from collections import Counter
+from datetime import datetime, timezone
+from decimal import Decimal, localcontext
+from fractions import Fraction
+import hashlib
+import json
+from math import factorial
+from pathlib import Path
+import sys
+
+from .seven_card_dictionary import HAND_COUNT, DATA_FILENAME, MANIFEST_FILENAME, SevenCardRankDictionary
+
+
+def summarize_chunks(chunks):
+    counts = Counter()
+    count = total = 0
+    digest = hashlib.sha256()
+    for block in chunks:
+        if len(block) % 2:
+            raise ValueError("Incomplete uint16 record")
+        digest.update(block)
+        values = array("H")
+        values.frombytes(block)
+        if sys.byteorder != "little":
+            values.byteswap()
+        if values and (min(values) < 1 or max(values) > 7462):
+            raise ValueError("Rank outside 1..7462")
+        count += len(values)
+        total += sum(values)  # Python integers: exact, no float accumulation.
+        counts.update(values)
+    if count == 0:
+        raise ValueError("No rank records")
+    if total != sum(rank*n for rank, n in counts.items()):
+        raise ValueError("Independent rank-sum check failed")
+    fraction = Fraction(total, count)
+    with localcontext() as ctx:
+        ctx.prec = 40
+        decimal = str(Decimal(total)/Decimal(count))
+    return dict(hand_count=count, rank_sum=total, mean_rank=total/count,
+                mean_rank_decimal=decimal,
+                mean_rank_fraction=dict(numerator=fraction.numerator, denominator=fraction.denominator),
+                rank_counts=dict(sorted(counts.items())), sha256=digest.hexdigest())
+
+
+def register_all_hands_average(directory):
+    directory = Path(directory)
+    with SevenCardRankDictionary(directory) as table:
+        expected_hash = table.manifest["sha256"]
+        with (directory/DATA_FILENAME).open("rb") as stream:
+            result = summarize_chunks(iter(lambda: stream.read(2*1000000), b""))
+        if result["hand_count"] != HAND_COUNT or result["sha256"] != expected_hash:
+            raise ValueError("Concrete-hand dictionary count/checksum mismatch")
+    multiplicity = factorial(7)//(factorial(2)*factorial(3))
+    result.update(key="all_explicit_seven_card_hands", schema_version=1,
+                  wildcard_used=False, method="exhaustive scan of every concrete seven-card dictionary entry",
+                  probability_measure="uniform over distinct seven-card sets", rank_order="1=strongest;7462=weakest",
+                  registered_at=datetime.now(timezone.utc).isoformat(),
+                  holdem_grouped=dict(group_sizes=[2,3,1,1], multiplicity=multiplicity,
+                      state_count=HAND_COUNT*multiplicity, rank_sum=result["rank_sum"]*multiplicity,
+                      mean_rank=result["mean_rank"], method="exact constant multiplicity, not a second enumeration"))
+    target = directory/'all_hands_average.json'
+    temp = target.with_suffix('.json.tmp')
+    temp.write_text(json.dumps(result, indent=2), encoding='utf-8')
+    temp.replace(target)
+    manifest_path = directory/MANIFEST_FILENAME
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    manifest['statistics_file'] = target.name
+    manifest['all_hands_average_rank'] = result['mean_rank']
+    temp = manifest_path.with_suffix('.json.tmp')
+    temp.write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+    temp.replace(manifest_path)
+    return result
