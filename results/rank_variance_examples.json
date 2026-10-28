@@ -1,0 +1,23 @@
+[
+  {
+    "pattern": "As Ks Qs Js Ts 2c 3d",
+    "count": 1,
+    "mean": 1.0,
+    "variance": 0.0,
+    "std": 0.0
+  },
+  {
+    "pattern": "As Ks Qs Js 2c 3d X1s",
+    "count": 9,
+    "mean": 290.3333333333333,
+    "variance": 10468.888888888889,
+    "std": 102.31758836528981
+  },
+  {
+    "pattern": "X1 X2 X3 X4 X5 X6 X7",
+    "count": 133784560,
+    "mean": 4095.8835905428846,
+    "variance": 3144968.3171892767,
+    "std": 1773.405852361291
+  }
+]

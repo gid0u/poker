@@ -47,6 +47,17 @@
 
 ## API
 
+`variance_rank` は条件付き予想順位を平均とする母分散、
+`standard_deviation_rank` はその平方根です。
+`mu = sum(p*r)`、`variance = sum(p*(r-mu)**2)` と計算します。
+全成立ハンドの分布が分かっているため、不偏標本分散のN-1補正はしません。
+分散の単位は順位の二乗、標準偏差の単位は順位です。標準誤差・信頼区間とは異なります。
+確定7枚は1つの順位しか持たないので分散0、複数ハンドでも全て同順位なら分散0です。
+
+全ハンド母平均など別の基準bからの距離は `result.mean_squared_deviation(b)`。
+これは `variance_rank + (mean_rank-b)**2` であり、条件付き分散と区別してください。
+順位分布が非正規なので、「平均±標準偏差」を一定確率の区間とは見なしません。
+
 ```python
 from poker_evaluator.seven_card_dictionary import SevenCardRankDictionary
 

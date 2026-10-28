@@ -131,11 +131,30 @@ class SevenCardRankDictionary(Mapping):
                 or sum(r*n for r, n in counts.items()) != result["rank_sum"]
                 or result["mean_rank"] != result["rank_sum"] / HAND_COUNT):
             raise ValueError("Inconsistent registered statistics")
+        if result.get("schema_version", 1) >= 2:
+            from fractions import Fraction
+            square_sum = sum(r*r*n for r, n in counts.items())
+            variance = Fraction(square_sum*HAND_COUNT-result["rank_sum"]**2, HAND_COUNT**2)
+            if (result.get("rank_squared_sum") != square_sum
+                    or result.get("variance_rank") != float(variance)):
+                raise ValueError("Inconsistent registered variance")
         return result
 
     @property
     def all_hands_average_rank(self):
         return self.all_hands_statistics["mean_rank"]
+
+    @property
+    def all_hands_variance_rank(self):
+        return self.all_hands_statistics["variance_rank"]
+
+    @property
+    def all_hands_standard_deviation_rank(self):
+        return self.all_hands_statistics["standard_deviation_rank"]
+
+    def rank_deviation(self, cards):
+        """Concrete rank's signed deviation from the population mean, not variance."""
+        return self[cards] - self.all_hands_average_rank
 
     def __len__(self):
         return HAND_COUNT

@@ -30,6 +30,28 @@ with SevenCardRankDictionary() as table:
 再集計・登録: `python scripts/register_all_hands_average.py`
 配布ZIPでは `python query.py --baseline` で基準値を取得できます。
 
+### 母分散・標準偏差
+
+全件走査で整数の二乗和 `S2=sum(rank**2)` も計算し、順位別件数から再計算した
+二乗和と照合します。母分散は `(N*S2-S1**2)/N**2`、正確な分数として保存。
+途中の浮動小数点引き算による桁落ちを避け、標準偏差は高精度Decimalで平方根を計算します。
+`all_hands_average.json` のschema_version=2に、分散・標準偏差・二乗和を追加しました。
+
+```python
+with SevenCardRankDictionary() as table:
+    print(table.all_hands_variance_rank)
+    print(table.all_hands_standard_deviation_rank)
+    print(table.rank_deviation("As Ks Qs Js Ts 2c 3d"))
+    result = table.evaluate_wildcards("As Ks Qs Js 2c 3d X1s")
+    print(result.mean_rank, result.variance_rank, result.standard_deviation_rank)
+```
+
+`rank_deviation(cards)` は確定ハンドの順位から全ハンド平均を引いた偏差です。
+確定ハンド自体の条件付き分散は0であり、この偏差の二乗と混同しません。
+各実ハンドの偏差は既存辞書の順位と共通平均から一意に求まるため、同じデータを
+133,784,560行の浮動小数点配列へ重複保存しません。
+公開単位(2,3,1,1)で各状態を一律420倍しても母分散と標準偏差は変わりません。
+
 ホール2枚・フロップ3枚・ターン・リバーを区別する場合は、各7枚集合が一律420個の
 状態に対応します。件数56,189,515,200、順位合計230,145,713,268,240で平均は同じです。
 この公開単位での数値は一律420倍による厳密変換であり、561億状態を別に再列挙した

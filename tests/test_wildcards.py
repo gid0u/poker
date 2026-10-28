@@ -17,6 +17,18 @@ class WildcardTests(unittest.TestCase):
         self.assertEqual(result.legal_hands, 1)
         self.assertEqual(result.mean_rank, 1)
         self.assertEqual(result.category_probabilities["straight_flush"], 1)
+        self.assertEqual(result.variance_rank, 0)
+        self.assertEqual(result.standard_deviation_rank, 0)
+
+    def test_conditional_weighted_population_variance(self):
+        pattern = "As Ks Qs Js 2c 3d X1s"
+        result = evaluate_wildcards(pattern, card_weights={"Ts": 5})
+        rows = list(WildcardPattern.parse(pattern).outcomes(card_weights={"Ts": 5}))
+        mean = sum(rank_seven_cards(c)*w for c, w in rows)/sum(w for c, w in rows)
+        variance = sum(w*(rank_seven_cards(c)-mean)**2 for c, w in rows)/sum(w for c, w in rows)
+        self.assertAlmostEqual(result.variance_rank, variance)
+        self.assertAlmostEqual(result.standard_deviation_rank**2, variance)
+        self.assertAlmostEqual(result.mean_squared_deviation(4095), variance+(mean-4095)**2)
 
     def test_one_unknown_uniform_mean(self):
         base = "As Ks Qs Js 2c 3d"

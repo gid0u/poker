@@ -187,6 +187,8 @@ class PokerStudio(ttk.Frame):
         lines = [f"正規化: {result.normalized}", f"正の重みを持つ実ハンド集合: {result.legal_hands:,}",
                  f"重み合計: {result.total_weight:,.6f}", f"平均順位（1が最強）: {result.mean_rank:.6f}",
                  f"平均強度（7463 − 順位）: {result.mean_strength:.6f}",
+                 f"順位の分散: {result.variance_rank:.6f}",
+                 f"順位の標準偏差: {result.standard_deviation_rank:.6f}",
                  f"最強順位: {result.best_rank} / 最弱順位: {result.worst_rank}", "", "役の確率:"]
         lines += [f"  {name}: {probability:.6%}" for name, probability in result.category_probabilities.items()]
         self.wildcard_text.configure(state="normal")

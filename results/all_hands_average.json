@@ -2,6 +2,16 @@
   "hand_count": 133784560,
   "rank_sum": 547965983972,
   "mean_rank": 4095.8835905428846,
+  "rank_squared_sum": 2665153084455708,
+  "variance_rank": 3144968.3171892767,
+  "standard_deviation_rank": 1773.405852361291,
+  "variance_rank_decimal": "3144968.317189276503150337350999512122871",
+  "standard_deviation_rank_decimal": "1773.405852361290845401982545174389350912",
+  "variance_rank_fraction": {
+    "numerator": 3518100821634223335731,
+    "denominator": 1118644280899600
+  },
+  "variance_definition": "population E[(rank-E[rank])^2]; denominator=N, not N-1",
   "mean_rank_decimal": "4095.883590542884769363519975698242009392",
   "mean_rank_fraction": {
     "numerator": 136991495993,
@@ -4835,12 +4845,12 @@
   },
   "sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944",
   "key": "all_explicit_seven_card_hands",
-  "schema_version": 1,
+  "schema_version": 2,
   "wildcard_used": false,
   "method": "exhaustive scan of every concrete seven-card dictionary entry",
   "probability_measure": "uniform over distinct seven-card sets",
   "rank_order": "1=strongest;7462=weakest",
-  "registered_at": "2026-10-28T06:29:34.421281+00:00",
+  "registered_at": "2026-10-28T06:35:46.666153+00:00",
   "holdem_grouped": {
     "group_sizes": [
       2,
@@ -4851,7 +4861,10 @@
     "multiplicity": 420,
     "state_count": 56189515200,
     "rank_sum": 230145713268240,
+    "rank_squared_sum": 1119364295471397360,
     "mean_rank": 4095.8835905428846,
+    "variance_rank": 3144968.3171892767,
+    "standard_deviation_rank": 1773.405852361291,
     "method": "exact constant multiplicity, not a second enumeration"
   }
 }

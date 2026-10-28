@@ -162,10 +162,18 @@ class WildcardEvaluation:
     category_probabilities: dict[str, float]
     conditions: dict = field(default_factory=dict)
     method: str = "exact"
+    variance_rank: float = 0.0
+    standard_deviation_rank: float = 0.0
 
     def expectation(self, value_by_rank):
         """Expected value of any caller-provided scalar rank utility."""
         return fsum(p*value_by_rank(rank) for rank, p in self.rank_probabilities.items())
+
+    def mean_squared_deviation(self, reference_rank):
+        """Deviation about another baseline; equals variance+(mean-baseline)^2."""
+        if not isfinite(reference_rank):
+            raise ValueError("Reference rank must be finite")
+        return fsum(p*(r-reference_rank)**2 for r, p in self.rank_probabilities.items())
 
 
 def _summary(pattern, masses, count, conditions):
@@ -178,8 +186,10 @@ def _summary(pattern, masses, count, conditions):
     for rank, probability in probabilities.items():
         categories[classes[rank-1][0]] += probability
     mean = fsum(rank*p for rank, p in probabilities.items())
+    variance = fsum(p*(rank-mean)**2 for rank, p in probabilities.items())
     return WildcardEvaluation(pattern.normalized, count, total, mean, 7463-mean,
-        min(probabilities), max(probabilities), probabilities, dict(zip(CATEGORY_NAMES, categories)), conditions)
+        min(probabilities), max(probabilities), probabilities, dict(zip(CATEGORY_NAMES, categories)), conditions,
+        variance_rank=variance, standard_deviation_rank=variance**0.5)
 
 
 def evaluate_wildcards(pattern, *, ranker=None, dead_cards=(), card_weights=None,
