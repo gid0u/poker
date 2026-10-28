@@ -14,6 +14,7 @@ from .capture.models import Region
 from .capture.sources import ImageFileSource, OpenCVVideoSource
 from .storage import Repository
 from .studio import StudioService
+from .card_panel import CardPanel, RangePanel
 
 
 class PokerStudio(ttk.Frame):
@@ -61,6 +62,30 @@ class PokerStudio(ttk.Frame):
         self.refresh_sessions()
         self.after(100, self.poll)
         root.protocol("WM_DELETE_WINDOW", self.close)
+
+    def card_panel(self, entry, limit=7, wild=False):
+        return CardPanel(self.root, entry, limit=limit, wild=wild)
+
+    def range_panel(self, entry):
+        def save(value):
+            entry.delete(0, 'end')
+            entry.insert(0, value)
+        return RangePanel(self.root, entry.get(), save)
+
+    def relative_range_panel(self):
+        lines = self.relative_ranges.get('1.0', 'end').strip().splitlines()
+        index = int(self.opponent_number.get()) - 1
+        def save(value):
+            if not value:
+                if index < len(lines):
+                    lines.pop(index)
+            else:
+                while len(lines) <= index:
+                    lines.append('random')
+                lines[index] = value
+            self.relative_ranges.delete('1.0', 'end')
+            self.relative_ranges.insert('1.0', '\n'.join(lines))
+        return RangePanel(self.root, lines[index] if index < len(lines) else '', save)
 
     def build_input(self):
         toolbar = ttk.Frame(self.input_tab)
@@ -112,6 +137,11 @@ class PokerStudio(ttk.Frame):
             entry = ttk.Entry(form, width=28)
             entry.grid(row=row, column=col+1, sticky="ew", padx=(0, 20))
             self.fields[name] = entry
+        selectors = ttk.Frame(self.analysis_tab)
+        selectors.pack(fill='x')
+        ttk.Button(selectors, text='ボードをパネルで選択', command=lambda:self.card_panel(self.fields['board'],5)).pack(side='left')
+        for name in ('p0','p1','p2'):
+            ttk.Button(selectors, text=name.upper()+' レンジを選択', command=lambda n=name:self.range_panel(self.fields[n])).pack(side='left',padx=4)
         for name, value in (("calls", "0.5 0.5 0.5"), ("samples", "10000"), ("seed", "42")):
             self.fields[name].insert(0, value)
         bar = ttk.Frame(self.analysis_tab)
@@ -144,12 +174,14 @@ class PokerStudio(ttk.Frame):
         self.wildcard_entry = ttk.Entry(tab, width=90)
         self.wildcard_entry.insert(0, "As Ks Qs Js 2c 3d X1s")
         self.wildcard_entry.pack(fill="x", pady=8)
+        ttk.Button(tab, text='7枚をパネルで選択（ワイルドカード対応）', command=lambda:self.card_panel(self.wildcard_entry,7,True)).pack(anchor='w')
         self.wildcard_holdem = tk.BooleanVar(value=False)
         ttk.Checkbutton(tab, text="ホールデムの公開単位で区別（入力順: 手札2枚 / フロップ3枚 / ターン / リバー）",
                         variable=self.wildcard_holdem).pack(anchor="w")
         ttk.Label(tab, text="除外カード（任意、空白区切り）").pack(anchor="w")
         self.wildcard_dead = ttk.Entry(tab)
         self.wildcard_dead.pack(fill="x", pady=5)
+        ttk.Button(tab, text='除外カードを選択', command=lambda:self.card_panel(self.wildcard_dead,52)).pack(anchor='w')
         ttk.Label(tab, text='カード重み（任意、JSON。例: {"Ts": 5}。未指定は1）').pack(anchor="w")
         self.wildcard_weights = ttk.Entry(tab)
         self.wildcard_weights.insert(0, "{}")
@@ -179,10 +211,22 @@ class PokerStudio(ttk.Frame):
             entry.insert(0, value)
             entry.grid(row=i, column=1, sticky='ew', padx=10)
             self.relative_fields[name] = entry
+            if name in ('hero','board','dead','pattern'):
+                limit = {'hero':2,'board':5,'dead':52,'pattern':7}[name]
+                ttk.Button(form,text='パネルで選択',command=lambda e=entry,n=limit,w=name=='pattern':self.card_panel(e,n,w)).grid(row=i,column=2)
+
         ttk.Label(tab, text='相手1人につき1行のレンジ（例 KK,QQ / AA,AKs / random）。全員ショーダウン参加を仮定。').pack(anchor='w')
         self.relative_ranges = tk.Text(tab, height=3, wrap='word')
         self.relative_ranges.insert('1.0', 'KK,QQ')
         self.relative_ranges.pack(fill='x', pady=5)
+        picker = ttk.Frame(tab)
+        picker.pack(fill='x')
+        ttk.Label(picker,text='編集する相手番号').pack(side='left')
+        self.opponent_number = ttk.Combobox(picker,values=tuple(range(1,9)),state='readonly',width=4)
+        self.opponent_number.set('1')
+        self.opponent_number.pack(side='left',padx=5)
+        ttk.Button(picker,text='相手レンジをパネルで選択',command=self.relative_range_panel).pack(side='left')
+        ttk.Label(picker,text='空のレンジを適用するとその相手を削除').pack(side='left',padx=8)
         bar = ttk.Frame(tab)
         bar.pack(fill='x', pady=6)
         self.relative_mode = ttk.Combobox(bar, values=('exact', 'sampling'), state='readonly', width=15)

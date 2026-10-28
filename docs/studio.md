@@ -108,3 +108,17 @@ recognizer separation, reproducibility, and a generated video decoded by real
 OpenCV when media dependencies are installed. The GUI smoke exercise uses real
 Tk widgets with a temporary database and a generated image. It needs Tk/Pillow
 and a desktop session. It opens no persistent user database.
+
+## パネルによるカード入力
+
+「2 確認・評価」「4 ワイルドカード」「5 相対勝率」の選択ボタンから、文字を打たずに入力できます。
+
+1. 「パネルで選択」を押し、必要なら「全消去」で例のカードを消します。
+2. 52枚のカードをクリックします。入力済みの枠を押すと置換、＋追加で末尾追加、選択枠を削除で削除できます。
+3. ワイルドカード欄ではランク「未知」とスート「指定なし」で無条件X、スート♠ならX1sを作れます。ランクQとスートOならQoです。X番号は削除・置換後も出現順に振り直します。
+4. 「適用」で元の入力欄へ反映。「キャンセル」では元の値を保持します。
+5. 相対勝率の未知カードは「詳細X条件」のパネルで手札2枚・フロップ3枚・ターン・リバーの順に7枚選び、exactで計算します。通常の手札・ボード欄より優先されます。
+
+相手レンジは「相手番号」を選んで「相手レンジをパネルで選択」を押します。13×13表のペア・同スート(s)・異スート(o)をクリックして切り替えます。「全ハンド(random)」も選択可能です。空のレンジを適用するとその相手を削除します。先の相手番号を追加した場合、途中の未入力相手はrandomで作られるため、表示された各行を確認してください。
+
+実カードの同一欄内の重複は選択できません。別欄との重複や成立しないスート条件は計算時の既存検証でエラーになります。数値や任意のカード重みJSONは従来どおり入力します。
