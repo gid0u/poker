@@ -1,0 +1,20 @@
+{
+  "complete_scan": true,
+  "hand_count": 133784560,
+  "distinct_ranks": 4824,
+  "category_counts": {
+    "high_card": 23294460,
+    "one_pair": 58627800,
+    "two_pair": 31433400,
+    "three_of_a_kind": 6461620,
+    "straight": 6180020,
+    "flush": 4047644,
+    "full_house": 3473184,
+    "four_of_a_kind": 224848,
+    "straight_flush": 41584
+  },
+  "oracle_checks": 10002,
+  "oracle_seed": 20261028,
+  "sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944",
+  "verified_at": "2026-10-28T05:04:22.670280+00:00"
+}
