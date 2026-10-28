@@ -1,0 +1,17 @@
+{
+  "method": "exact enumeration",
+  "classes": 169,
+  "physical_hole_combos": 1326,
+  "boards_per_class": 2118760,
+  "total_representative_boards": 358070440,
+  "opponents": null,
+  "board_distribution": "uniform C(remaining 50 cards,5)",
+  "variance": "population variance of final 7-card rank",
+  "rank_order": "1 strongest; 7462 weakest",
+  "baseline_mean": 4095.8835905428846,
+  "baseline_variance": 3144968.3171892767,
+  "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944",
+  "weighted_mean_check": 4095.8835905428846,
+  "weighted_variance_check": 3144968.317189278,
+  "elapsed_seconds": 38.27202844619751
+}
