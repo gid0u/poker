@@ -2,7 +2,8 @@
 from collections import Counter
 from dataclasses import dataclass, field
 from itertools import combinations, permutations
-from math import isfinite, prod, fsum
+from math import isfinite, prod, fsum, factorial
+from functools import lru_cache
 import re
 
 from .cards import Card
@@ -13,6 +14,14 @@ RANKS = "23456789TJQKA"
 SUITS = "SCHD"
 VARIABLE_SUITS = "OPQR"
 TOKEN = re.compile(r"^(?:(X)([1-9][0-9]*)?|([2-9TJQKA]))([SCHDOPQR])?$", re.I)
+HOLDEM_GROUPS = (2, 3, 1, 1)
+
+
+def normalize_groups(group_sizes):
+    sizes = (7,) if group_sizes is None else tuple(group_sizes)
+    if not sizes or any(type(n) is not int or n <= 0 for n in sizes) or sum(sizes) != 7:
+        raise ValueError("Group sizes must be positive integers summing to seven")
+    return sizes
 
 
 class ExpansionLimitError(ValueError):
@@ -62,7 +71,8 @@ class WildcardPattern:
                 normalized.append(rank+suit)
         return cls(tuple(slots), " ".join(normalized))
 
-    def outcomes(self, *, dead_cards=(), card_weights=None, hand_weight=None, max_candidates=1000000):
+    def outcomes(self, *, dead_cards=(), card_weights=None, hand_weight=None, max_candidates=1000000,
+                 group_sizes=None):
         """Unique unordered physical sets. Product card weights x optional hand mass.
 
         The enumeration budget counts complete assignments before deduplication.
@@ -71,6 +81,8 @@ class WildcardPattern:
         """
         if type(max_candidates) is not int or max_candidates <= 0:
             raise ValueError("Positive max_candidates required")
+        sizes = normalize_groups(group_sizes)
+        slot_groups = tuple(i for i, size in enumerate(sizes) for _ in range(size))
         dead = frozenset(card_id(c) for c in dead_cards)
         weights = {}
         for key, value in (card_weights or {}).items():
@@ -95,25 +107,26 @@ class WildcardPattern:
         for assigned in permutations(available, len(variables)):
             mapping = dict(zip(variables, assigned))
             groups = Counter()
-            for slot in self.slots:
+            for slot, group_id in zip(self.slots, slot_groups):
                 suit = (SUITS.index(slot.suit) if slot.suit in SUITS else mapping[slot.suit]) if slot.suit else None
                 pool = tuple(i for i in range(52) if i not in dead
                              and (slot.rank is None or i//4+2 == slot.rank)
                              and (suit is None or i%4 == suit))
-                groups[pool] += 1
+                groups[(group_id, pool)] += 1
             # Resolve the tightest pools first. Identical pools choose combinations.
-            grouped = sorted(groups.items(), key=lambda pair: len(pair[0]))
+            grouped = sorted(groups.items(), key=lambda pair: len(pair[0][1]))
 
-            def visit(position, used):
+            def visit(position, used, parts):
                 nonlocal attempts
                 if position == len(grouped):
                     attempts += 1
                     if attempts > max_candidates:
                         raise ExpansionLimitError("Exact expansion exceeds max_candidates; no partial result returned")
-                    ids = tuple(sorted(used))
-                    if ids in seen:
+                    key = tuple(tuple(sorted(part)) for part in parts)
+                    if key in seen:
                         return
-                    seen.add(ids)
+                    seen.add(key)
+                    ids = tuple(i for part in key for i in part)
                     cards = tuple(Card(i//4+2, i%4) for i in ids)
                     mass = prod(weights.get(i, 1.0) for i in ids)
                     if hand_weight is not None:
@@ -126,12 +139,14 @@ class WildcardPattern:
                     if mass:
                         yield cards, mass
                     return
-                pool, count = grouped[position]
+                (group_id, pool), count = grouped[position]
                 allowed = [i for i in pool if i not in used]
                 for selected in combinations(allowed, count):
-                    yield from visit(position+1, used | frozenset(selected))
+                    next_parts = list(parts)
+                    next_parts[group_id] = parts[group_id] + selected
+                    yield from visit(position+1, used | frozenset(selected), tuple(next_parts))
 
-            yield from visit(0, frozenset())
+            yield from visit(0, frozenset(), ((),) * len(sizes))
 
 
 @dataclass(frozen=True)
@@ -168,7 +183,7 @@ def _summary(pattern, masses, count, conditions):
 
 
 def evaluate_wildcards(pattern, *, ranker=None, dead_cards=(), card_weights=None,
-                       hand_weight=None, max_candidates=1000000):
+                       hand_weight=None, max_candidates=1000000, group_sizes=None):
     """Exact weighted mean over unique legal sets. Smaller mean_rank is stronger.
 
     ranker may be an open SevenCardRankDictionary or callable(cards)->1..7462.
@@ -179,10 +194,12 @@ def evaluate_wildcards(pattern, *, ranker=None, dead_cards=(), card_weights=None
         raise ValueError("Expected a seven-card wildcard pattern")
     if type(max_candidates) is not int or max_candidates <= 0:
         raise ValueError("Positive max_candidates required")
+    sizes = normalize_groups(group_sizes)
     dead_cards = tuple(dead_cards)
     conditions = dict(dead_card_ids=sorted({card_id(c) for c in dead_cards}),
         card_weights={str(card_id(c)): w for c, w in (card_weights or {}).items()},
-        custom_hand_weight=hand_weight is not None, measure="unique unordered physical seven-card sets")
+        custom_hand_weight=hand_weight is not None, group_sizes=list(sizes),
+        measure="unique physical sets within each ordered group")
     # All 7 unknowns have a direct exact histogram over the already built table.
     from .seven_card_dictionary import SevenCardRankDictionary, DATA_FILENAME
     if (isinstance(ranker, SevenCardRankDictionary) and not dead_cards and not card_weights
@@ -199,15 +216,27 @@ def evaluate_wildcards(pattern, *, ranker=None, dead_cards=(), card_weights=None
                 masses.update(values)
         if any(not 1 <= r <= 7462 for r in masses) or sum(masses.values()) != HAND_COUNT:
             raise ValueError("Corrupt dictionary")
-        return _summary(pattern, masses, HAND_COUNT, conditions)
+        multiplicity = factorial(7) // prod(factorial(n) for n in sizes)
+        if multiplicity != 1:
+            masses = Counter({r: n*multiplicity for r, n in masses.items()})
+        return _summary(pattern, masses, HAND_COUNT*multiplicity, conditions)
     function = ranker.__getitem__ if isinstance(ranker, SevenCardRankDictionary) else ranker or rank_seven_cards
+    # Strength depends on the final seven-card set, not its reveal partition.
+    # Keep role-specific outcome weights while avoiding repeated rank evaluation.
+    cached_rank = lru_cache(maxsize=100000)(function)
     masses = Counter()
     count = 0
     for cards, mass in pattern.outcomes(dead_cards=dead_cards, card_weights=card_weights,
-                                        hand_weight=hand_weight, max_candidates=max_candidates):
-        rank = function(cards)
+                                        hand_weight=hand_weight, max_candidates=max_candidates,
+                                        group_sizes=sizes):
+        rank = cached_rank(tuple(sorted(cards)))
         if type(rank) is not int or not 1 <= rank <= 7462:
             raise ValueError("Rank evaluator must return an integer in [1,7462]")
         masses[rank] += mass
         count += 1
     return _summary(pattern, masses, count, conditions)
+
+
+def evaluate_holdem_wildcards(pattern, **options):
+    """Input order: hole[2], flop[3], turn[1], river[1]."""
+    return evaluate_wildcards(pattern, group_sizes=HOLDEM_GROUPS, **options)

@@ -16,11 +16,13 @@ if __name__ == "__main__":
     parser.add_argument("--card-weights", type=Path, help="JSON file mapping actual cards to nonnegative weights")
     parser.add_argument("--max-candidates", type=int, default=1000000)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--holdem", action="store_true", help="Group positions as hole[2], flop[3], turn[1], river[1]")
     args = parser.parse_args()
     weights = json.loads(args.card_weights.read_text()) if args.card_weights else None
     with SevenCardRankDictionary(args.dictionary) as table:
         result = table.evaluate_wildcards(args.pattern, dead_cards=args.dead,
-            card_weights=weights, max_candidates=args.max_candidates)
+            card_weights=weights, max_candidates=args.max_candidates,
+            group_sizes=(2, 3, 1, 1) if args.holdem else None)
     text = json.dumps(asdict(result), indent=2)
     if args.output:
         args.output.write_text(text, encoding="utf-8")

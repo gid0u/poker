@@ -143,6 +143,9 @@ class PokerStudio(ttk.Frame):
         self.wildcard_entry = ttk.Entry(tab, width=90)
         self.wildcard_entry.insert(0, "As Ks Qs Js 2c 3d X1s")
         self.wildcard_entry.pack(fill="x", pady=8)
+        self.wildcard_holdem = tk.BooleanVar(value=False)
+        ttk.Checkbutton(tab, text="ホールデムの公開単位で区別（入力順: 手札2枚 / フロップ3枚 / ターン / リバー）",
+                        variable=self.wildcard_holdem).pack(anchor="w")
         ttk.Label(tab, text="除外カード（任意、空白区切り）").pack(anchor="w")
         self.wildcard_dead = ttk.Entry(tab)
         self.wildcard_dead.pack(fill="x", pady=5)
@@ -168,11 +171,12 @@ class PokerStudio(ttk.Frame):
             pattern = WildcardPattern.parse(self.wildcard_entry.get())
             dead = tuple(self.wildcard_dead.get().split())
             weights = json.loads(self.wildcard_weights.get() or "{}")
+            groups = (2, 3, 1, 1) if self.wildcard_holdem.get() else None
             if not isinstance(weights, dict):
                 raise ValueError("重みはカード名と数値のJSONオブジェクトにしてください")
             def task():
                 with SevenCardRankDictionary() as table:
-                    return table.evaluate_wildcards(pattern, dead_cards=dead, card_weights=weights)
+                    return table.evaluate_wildcards(pattern, dead_cards=dead, card_weights=weights, group_sizes=groups)
             self.run(task, self.wildcards_done)
         except (ValueError, TypeError) as exc:
             messagebox.showerror("ワイルドカード入力", str(exc))

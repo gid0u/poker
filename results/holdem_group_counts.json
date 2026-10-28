@@ -1,0 +1,9 @@
+{
+  "fully_ordered": 674274182400,
+  "holdem_grouped": 56189515200,
+  "unordered_seven_cards": 133784560,
+  "internal_order_reduction": 12,
+  "role_partitions_per_seven_card_set": 420,
+  "mean_rank": 4095.8835905428846,
+  "rank_distributions_equal": true
+}
