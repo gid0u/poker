@@ -55,6 +55,7 @@ class PokerStudio(ttk.Frame):
         self.build_analysis()
         self.build_history()
         self.build_wildcards()
+        self.build_relative()
         ttk.Label(self, textvariable=self.status, wraplength=1050).pack(fill="x", pady=(10, 0))
         ttk.Label(self, text=f"保存先: {repository.path}", foreground="#667788").pack(anchor="w")
         self.refresh_sessions()
@@ -161,6 +162,84 @@ class PokerStudio(ttk.Frame):
         self.wildcard_text.pack(fill="both", expand=True)
         self.wildcard_result = None
         ttk.Label(tab, text="小さい平均順位ほど強い評価です。勝率・GTOではありません。一般の展開は100万候補まで。\n7枚すべて無条件Xの場合は全52C7辞書を直接集計します。", wraplength=1000).pack(anchor="w", pady=8)
+
+    def build_relative(self):
+        tab = ttk.Frame(self.tabs, padding=14)
+        self.tabs.add(tab, text="5  相対勝率")
+        ttk.Label(tab, text="同じ配布条件で、予想順位・分散・相手に対する勝率を評価", font=("Segoe UI", 14, "bold")).pack(anchor="w")
+        form = ttk.Frame(tab)
+        form.pack(fill="x", pady=8)
+        self.relative_fields = {}
+        for i, (name, label, value) in enumerate((
+                ('hero', '自分の2枚', 'As Ah'), ('board', '現在のボード（0 / 3 / 4 / 5枚）', 'Ks 8h 7d 3c 2s'),
+                ('dead', '除外カード', ''), ('pattern', '詳細X条件（任意: 手札2 / flop3 / turn / river、exactのみ）', ''),
+                ('samples', 'サンプル数', '10000'), ('seed', '乱数seed', '42'))):
+            ttk.Label(form, text=label).grid(row=i, column=0, sticky='w', pady=3)
+            entry = ttk.Entry(form, width=55)
+            entry.insert(0, value)
+            entry.grid(row=i, column=1, sticky='ew', padx=10)
+            self.relative_fields[name] = entry
+        ttk.Label(tab, text='相手1人につき1行のレンジ（例 KK,QQ / AA,AKs / random）。全員ショーダウン参加を仮定。').pack(anchor='w')
+        self.relative_ranges = tk.Text(tab, height=3, wrap='word')
+        self.relative_ranges.insert('1.0', 'KK,QQ')
+        self.relative_ranges.pack(fill='x', pady=5)
+        bar = ttk.Frame(tab)
+        bar.pack(fill='x', pady=6)
+        self.relative_mode = ttk.Combobox(bar, values=('exact', 'sampling'), state='readonly', width=15)
+        self.relative_mode.set('exact')
+        self.relative_mode.pack(side='left')
+        ttk.Button(bar, text='相対勝率を計算', command=self.analyze_relative).pack(side='left', padx=10)
+        ttk.Button(bar, text='結果JSON保存', command=self.export_relative).pack(side='right')
+        self.relative_text = tk.Text(tab, height=12, wrap='word', state='disabled')
+        self.relative_text.pack(fill='both', expand=True)
+        self.relative_result = None
+        ttk.Label(tab, text='exact=全列挙（上限100万候補）、sampling=推定。相手レンジの仮定誤差やベットEVは含みません。', wraplength=1000).pack(anchor='w', pady=6)
+
+    def analyze_relative(self):
+        if not self.guard():
+            return
+        from .seven_card_dictionary import SevenCardRankDictionary
+        try:
+            values = {k: entry.get().strip() for k, entry in self.relative_fields.items()}
+            ranges = [line.strip() for line in self.relative_ranges.get('1.0', 'end').splitlines() if line.strip()]
+            mode = self.relative_mode.get()
+            samples, seed = int(values['samples']), int(values['seed'])
+            if values['pattern'] and mode != 'exact':
+                raise ValueError('詳細ワイルドカード条件はexactを選択してください')
+            def task():
+                with SevenCardRankDictionary() as table:
+                    if values['pattern']:
+                        return table.relative_wildcards(values['pattern'], ranges, dead_cards=values['dead'])
+                    return table.relative_strength(values['hero'], values['board'], ranges,
+                        dead_cards=values['dead'], mode=mode, samples=samples, seed=seed)
+            self.run(task, self.relative_done)
+        except ValueError as exc:
+            messagebox.showerror('相対勝率入力', str(exc))
+
+    def relative_done(self, result):
+        from dataclasses import asdict
+        self.relative_result = asdict(result)
+        text = (f'方式: {result.method} / 評価配布数: {result.outcomes:,}\n'
+                f'予想順位: {result.mean_rank:.6f}\n分散: {result.variance_rank:.6f}\n標準偏差: {result.standard_deviation_rank:.6f}\n\n'
+                f'単独勝率: {result.win_probability:.4%}\n引分け率（自分も勝者）: {result.tie_probability:.4%}\n敗率: {result.loss_probability:.4%}\n'
+                f'エクイティ（分割分を含む取り分）: {result.equity:.4%}\n'
+                f'エクイティSE: {result.equity_standard_error:.6f}\n95%CI: [{result.equity_ci95[0]:.4%}, {result.equity_ci95[1]:.4%}]')
+        self.relative_text.configure(state='normal')
+        self.relative_text.delete('1.0', 'end')
+        self.relative_text.insert('end', text)
+        self.relative_text.configure(state='disabled')
+        self.status.set('同じカード条件で順位・分散・相対勝率を計算しました。')
+
+    def export_relative(self):
+        if self.relative_result is None:
+            messagebox.showinfo('JSON', '計算結果がありません')
+            return
+        path = filedialog.asksaveasfilename(defaultextension='.json', filetypes=[('JSON', '*.json')])
+        if path:
+            try:
+                Path(path).write_text(json.dumps(self.relative_result, indent=2), encoding='utf-8')
+            except OSError as exc:
+                messagebox.showerror('保存', str(exc))
 
     def analyze_wildcards(self):
         if not self.guard():

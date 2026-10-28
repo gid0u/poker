@@ -116,6 +116,14 @@ class SevenCardRankDictionary(Mapping):
         from .wildcards import evaluate_wildcards
         return evaluate_wildcards(pattern, ranker=self, **options)
 
+    def relative_strength(self, hero, board, opponent_ranges, **options):
+        from .relative_strength import evaluate_relative_strength
+        return evaluate_relative_strength(hero, board, opponent_ranges, ranker=self, **options)
+
+    def relative_wildcards(self, pattern, opponent_ranges, **options):
+        from .relative_strength import evaluate_relative_wildcards
+        return evaluate_relative_wildcards(pattern, opponent_ranges, ranker=self, **options)
+
     @property
     def all_hands_statistics(self):
         """Registered baseline over all explicit hands, without wildcard expansion."""

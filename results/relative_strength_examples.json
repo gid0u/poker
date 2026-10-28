@@ -1,0 +1,506 @@
+[
+  {
+    "label": "AA vs QQ river",
+    "mean_rank": 3360.0,
+    "variance_rank": 0.0,
+    "standard_deviation_rank": 0.0,
+    "win_probability": 1.0,
+    "tie_probability": 0.0,
+    "loss_probability": 0.0,
+    "equity": 1.0,
+    "equity_standard_error": 0.0,
+    "equity_ci95": [
+      1.0,
+      1.0
+    ],
+    "outcomes": 6,
+    "method": "exact",
+    "conditions": {
+      "hero": [
+        "As",
+        "Ah"
+      ],
+      "board": [
+        "Ks",
+        "8h",
+        "7d",
+        "3c",
+        "2s"
+      ],
+      "dead_cards": [],
+      "opponent_count": 1,
+      "opponent_ranges": [
+        [
+          {
+            "cards": [
+              "Qs",
+              "Qc"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "Qs",
+              "Qh"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "Qs",
+              "Qd"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "Qc",
+              "Qh"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "Qc",
+              "Qd"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "Qh",
+              "Qd"
+            ],
+            "weight": 0.16666666666666666
+          }
+        ]
+      ],
+      "seed": null,
+      "samples": null,
+      "measure": "product range weights conditioned on joint legality; uniform legal runout",
+      "interval": "normal approximation; sampling uncertainty only",
+      "assumption": "all listed opponents reach showdown; equal pot shares on ties",
+      "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944"
+    }
+  },
+  {
+    "label": "AA vs KK river",
+    "mean_rank": 3360.0,
+    "variance_rank": 0.0,
+    "standard_deviation_rank": 0.0,
+    "win_probability": 0.0,
+    "tie_probability": 0.0,
+    "loss_probability": 1.0,
+    "equity": 0.0,
+    "equity_standard_error": 0.0,
+    "equity_ci95": [
+      0.0,
+      0.0
+    ],
+    "outcomes": 3,
+    "method": "exact",
+    "conditions": {
+      "hero": [
+        "As",
+        "Ah"
+      ],
+      "board": [
+        "Ks",
+        "8h",
+        "7d",
+        "3c",
+        "2s"
+      ],
+      "dead_cards": [],
+      "opponent_count": 1,
+      "opponent_ranges": [
+        [
+          {
+            "cards": [
+              "Kc",
+              "Kh"
+            ],
+            "weight": 0.3333333333333333
+          },
+          {
+            "cards": [
+              "Kc",
+              "Kd"
+            ],
+            "weight": 0.3333333333333333
+          },
+          {
+            "cards": [
+              "Kh",
+              "Kd"
+            ],
+            "weight": 0.3333333333333333
+          }
+        ]
+      ],
+      "seed": null,
+      "samples": null,
+      "measure": "product range weights conditioned on joint legality; uniform legal runout",
+      "interval": "normal approximation; sampling uncertainty only",
+      "assumption": "all listed opponents reach showdown; equal pot shares on ties",
+      "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944"
+    }
+  },
+  {
+    "label": "AA vs KK,QQ river",
+    "mean_rank": 3360.0,
+    "variance_rank": 0.0,
+    "standard_deviation_rank": 0.0,
+    "win_probability": 0.6666666666666666,
+    "tie_probability": 0.0,
+    "loss_probability": 0.33333333333333326,
+    "equity": 0.6666666666666666,
+    "equity_standard_error": 0.0,
+    "equity_ci95": [
+      0.6666666666666666,
+      0.6666666666666666
+    ],
+    "outcomes": 9,
+    "method": "exact",
+    "conditions": {
+      "hero": [
+        "As",
+        "Ah"
+      ],
+      "board": [
+        "Ks",
+        "8h",
+        "7d",
+        "3c",
+        "2s"
+      ],
+      "dead_cards": [],
+      "opponent_count": 1,
+      "opponent_ranges": [
+        [
+          {
+            "cards": [
+              "Kc",
+              "Kh"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Kc",
+              "Kd"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Kh",
+              "Kd"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Qs",
+              "Qc"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Qs",
+              "Qh"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Qs",
+              "Qd"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Qc",
+              "Qh"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Qc",
+              "Qd"
+            ],
+            "weight": 0.1111111111111111
+          },
+          {
+            "cards": [
+              "Qh",
+              "Qd"
+            ],
+            "weight": 0.1111111111111111
+          }
+        ]
+      ],
+      "seed": null,
+      "samples": null,
+      "measure": "product range weights conditioned on joint legality; uniform legal runout",
+      "interval": "normal approximation; sampling uncertainty only",
+      "assumption": "all listed opponents reach showdown; equal pot shares on ties",
+      "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944"
+    }
+  },
+  {
+    "label": "AA vs KK turn",
+    "mean_rank": 3087.0227272727284,
+    "variance_rank": 218107.11311983483,
+    "standard_deviation_rank": 467.0193926592715,
+    "win_probability": 0.045454545454545484,
+    "tie_probability": 0.0,
+    "loss_probability": 0.9545454545454546,
+    "equity": 0.045454545454545484,
+    "equity_standard_error": 0.0,
+    "equity_ci95": [
+      0.045454545454545484,
+      0.045454545454545484
+    ],
+    "outcomes": 132,
+    "method": "exact",
+    "conditions": {
+      "hero": [
+        "As",
+        "Ah"
+      ],
+      "board": [
+        "Ks",
+        "8h",
+        "7d",
+        "3c"
+      ],
+      "dead_cards": [],
+      "opponent_count": 1,
+      "opponent_ranges": [
+        [
+          {
+            "cards": [
+              "Kc",
+              "Kh"
+            ],
+            "weight": 0.3333333333333333
+          },
+          {
+            "cards": [
+              "Kc",
+              "Kd"
+            ],
+            "weight": 0.3333333333333333
+          },
+          {
+            "cards": [
+              "Kh",
+              "Kd"
+            ],
+            "weight": 0.3333333333333333
+          }
+        ]
+      ],
+      "seed": null,
+      "samples": null,
+      "measure": "product range weights conditioned on joint legality; uniform legal runout",
+      "interval": "normal approximation; sampling uncertainty only",
+      "assumption": "all listed opponents reach showdown; equal pot shares on ties",
+      "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944"
+    }
+  },
+  {
+    "label": "AA vs KK turn sampled",
+    "mean_rank": 3074.9414,
+    "variance_rank": 228292.23016603998,
+    "standard_deviation_rank": 477.7993618309258,
+    "win_probability": 0.0499,
+    "tie_probability": 0.0,
+    "loss_probability": 0.9501,
+    "equity": 0.0499,
+    "equity_standard_error": 0.0021774923989108966,
+    "equity_ci95": [
+      0.045632114898134644,
+      0.054167885101865355
+    ],
+    "outcomes": 10000,
+    "method": "sampling",
+    "conditions": {
+      "hero": [
+        "As",
+        "Ah"
+      ],
+      "board": [
+        "Ks",
+        "8h",
+        "7d",
+        "3c"
+      ],
+      "dead_cards": [],
+      "opponent_count": 1,
+      "opponent_ranges": [
+        [
+          {
+            "cards": [
+              "Kc",
+              "Kh"
+            ],
+            "weight": 0.3333333333333333
+          },
+          {
+            "cards": [
+              "Kc",
+              "Kd"
+            ],
+            "weight": 0.3333333333333333
+          },
+          {
+            "cards": [
+              "Kh",
+              "Kd"
+            ],
+            "weight": 0.3333333333333333
+          }
+        ]
+      ],
+      "seed": 42,
+      "samples": 10000,
+      "measure": "product range weights conditioned on joint legality; uniform legal runout",
+      "interval": "normal approximation; sampling uncertainty only",
+      "assumption": "all listed opponents reach showdown; equal pot shares on ties",
+      "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944"
+    }
+  },
+  {
+    "label": "Royal board three-way",
+    "mean_rank": 1.0,
+    "variance_rank": 0.0,
+    "standard_deviation_rank": 0.0,
+    "win_probability": 0.0,
+    "tie_probability": 1.0,
+    "loss_probability": 0.0,
+    "equity": 0.333333333333333,
+    "equity_standard_error": 0.0,
+    "equity_ci95": [
+      0.333333333333333,
+      0.333333333333333
+    ],
+    "outcomes": 36,
+    "method": "exact",
+    "conditions": {
+      "hero": [
+        "2c",
+        "3d"
+      ],
+      "board": [
+        "As",
+        "Ks",
+        "Qs",
+        "Js",
+        "Ts"
+      ],
+      "dead_cards": [],
+      "opponent_count": 2,
+      "opponent_ranges": [
+        [
+          {
+            "cards": [
+              "4s",
+              "4c"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "4s",
+              "4h"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "4s",
+              "4d"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "4c",
+              "4h"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "4c",
+              "4d"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "4h",
+              "4d"
+            ],
+            "weight": 0.16666666666666666
+          }
+        ],
+        [
+          {
+            "cards": [
+              "6s",
+              "6c"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "6s",
+              "6h"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "6s",
+              "6d"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "6c",
+              "6h"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "6c",
+              "6d"
+            ],
+            "weight": 0.16666666666666666
+          },
+          {
+            "cards": [
+              "6h",
+              "6d"
+            ],
+            "weight": 0.16666666666666666
+          }
+        ]
+      ],
+      "seed": null,
+      "samples": null,
+      "measure": "product range weights conditioned on joint legality; uniform legal runout",
+      "interval": "normal approximation; sampling uncertainty only",
+      "assumption": "all listed opponents reach showdown; equal pot shares on ties",
+      "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944"
+    }
+  }
+]

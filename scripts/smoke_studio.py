@@ -39,7 +39,10 @@ def run():
             app.load_history()
             assert app.fields["board"].get() == "Ks 8h 7d 3c 2s"
             assert len(app.results.get_children()) == 2
-            assert len(app.tabs.tabs()) == 4
+            assert len(app.tabs.tabs()) == 5
+            from poker_evaluator.relative_strength import evaluate_relative_strength
+            app.relative_done(evaluate_relative_strength('As Ah', 'Ks 8h 7d 3c 2s', ['KK,QQ'], mode='exact'))
+            assert abs(app.relative_result['equity']-2/3) < 1e-12
             from poker_evaluator.wildcards import evaluate_wildcards
             app.wildcards_done(evaluate_wildcards("As Ks Qs Js 2c 3d X1s"))
             assert app.wildcard_result["legal_hands"] == 9
