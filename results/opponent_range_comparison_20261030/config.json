@@ -1,0 +1,19 @@
+{
+  "ranges": {
+    "tight": "99+,AQs+,AKo",
+    "ultra_tight": "QQ+,AK"
+  },
+  "range_combo_counts": {
+    "tight": 56,
+    "ultra_tight": 34
+  },
+  "interpretation": "fixed preflop participation; condition on opponent having entered; no later action filtering",
+  "weights": "uniform legal physical combos within each range",
+  "preflop_samples_each": 300000,
+  "seed": 20261101,
+  "numpy_version": "2.5.3",
+  "preflop_method": "Monte Carlo",
+  "postflop_method": "exact; board posterior reweighted by compatible opponent combo counts",
+  "reference_random": "existing 1M/class preflop MC and exact 46/2162/49726 postflop panel",
+  "limits": "no folds/blinds/bets/rake EV; hand chosen by fixed priors not inferred from actions; not an OCHS reproduction"
+}

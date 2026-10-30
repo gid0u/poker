@@ -1,0 +1,23 @@
+[
+  {
+    "year": 2013,
+    "title": "Evaluating State-Space Abstractions in Extensive-Form Games",
+    "url": "https://johanson.ca/publications/poker/2013-aamas-kmeans-abstraction/2013-aamas-kmeans-abstraction.pdf",
+    "relevant": "section Opponent Cluster Hand Strength, PDF p.5, eight range-conditioned strength features; distribution-aware abstraction",
+    "difference": "our three fixed overlapping distributions are not their eight learned clusters or a CFR-BR evaluation"
+  },
+  {
+    "year": 2007,
+    "title": "Potential-aware Automated Abstraction of Sequential Games, and Holistic Equilibrium Analysis of Texas Hold\u2019em Poker",
+    "url": "https://cdn.aaai.org/AAAI/2007/AAAI07-008.pdf",
+    "relevant": "discussion of mean/variance limits and histograms, PDF pp.3-4",
+    "difference": "our rank moments are ordinal ranks; conditional equity moments are separate; no solver performance comparison"
+  },
+  {
+    "year": 2005,
+    "title": "Bayes\u2019 Bluff: Opponent Modelling in Poker",
+    "url": "https://poker.cs.ualberta.ca/publications/UAI05.pdf",
+    "relevant": "posterior over opponent strategies from observations and responses",
+    "difference": "our range priors are explicitly assumed, not learned from actions"
+  }
+]

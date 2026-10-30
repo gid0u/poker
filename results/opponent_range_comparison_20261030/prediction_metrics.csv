@@ -1,0 +1,13 @@
+﻿opponent,weighting,model,rmse_pp,mae_pp
+random,class,mean_quadratic,4.983192560861103,4.221844117271212
+random,class,mean_variance_quadratic,4.120048024883424,3.2816713044856116
+random,combo,mean_quadratic,4.989238673599304,4.194983687960391
+random,combo,mean_variance_quadratic,3.8013164412441776,3.0009605850402563
+tight,class,mean_quadratic,3.775846040375271,1.9714122112074455
+tight,class,mean_variance_quadratic,3.483640991882966,1.7922142344125744
+tight,combo,mean_quadratic,3.47623856533952,1.7662146494716715
+tight,combo,mean_variance_quadratic,3.1666037061397736,1.6421523087673373
+ultra_tight,class,mean_quadratic,4.255998707695779,2.5069882414529805
+ultra_tight,class,mean_variance_quadratic,3.6935361973849776,1.9564309071019272
+ultra_tight,combo,mean_quadratic,3.8924345598902983,2.3711857091592314
+ultra_tight,combo,mean_variance_quadratic,3.4675360090012672,1.85001716247272

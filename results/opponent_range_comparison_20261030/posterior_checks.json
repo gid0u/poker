@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "flop_parent_states": 92,
+  "turn_states": 4324,
+  "preflop_estimates": 338,
+  "max_mean_error": 3.637978807091713e-12,
+  "max_equity_error": 5.551115123125783e-16,
+  "max_rank_variance_identity_error": 2.7939677238464355e-09,
+  "max_board_equity_variance_identity_error": 1.3877787807814457e-16,
+  "largest_naive_unweighted_turn_bias": {
+    "hero": "Qc Qh",
+    "flop": "9c 9h 2d",
+    "opponent": "ultra_tight",
+    "correct_equity": 0.46753744339951236,
+    "incorrect_unweighted_turn_equity": 0.451542754584174,
+    "absolute_bias": 0.015994688815338387
+  }
+}
