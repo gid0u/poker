@@ -1,0 +1,178 @@
+{
+  "method": "exact enumeration; except explicitly labeled sampling checks",
+  "flop_states": 46,
+  "turn_states": 2162,
+  "river_states": 49726,
+  "skipped_collisions": [
+    {
+      "hero": "As Ks",
+      "flop": "Ks 8h 7d"
+    },
+    {
+      "hero": "Qs Js",
+      "flop": "Qs Js 8s"
+    }
+  ],
+  "total_flop_joint_deals": 49228740,
+  "H1": {
+    "increasing_turn_branches": 187,
+    "all_turn_branches": 2162,
+    "largest_increase": {
+      "hero": "7c 2h",
+      "flop": "Qs Js 8s",
+      "turn_card": "9s",
+      "board": "Qs Js 8s 9s",
+      "rank_mean": 4576.521739130435,
+      "rank_variance": 5436357.032136106,
+      "equity": 0.14890206411945542,
+      "board_equity_variance": 0.02070714062393618,
+      "expected_squared_board_equity": 0.04287896532297059,
+      "rank_variance_change_from_flop": 2573334.672326049,
+      "completed_boards": 46,
+      "joint_deals": 45540
+    },
+    "all_flop_expected_turn_variance_not_larger": true,
+    "max_rank_total_variance_error": 9.313225746154785e-10,
+    "max_equity_total_variance_error": 2.7755575615628914e-17
+  },
+  "H2": {
+    "river_states_with_strictly_intermediate_equity": 49189,
+    "river_states_total": 49726,
+    "largest_same_hero_flop_rank_equity_gap": {
+      "equity_gap": 0.5232323232323233,
+      "low_equity_state": {
+        "hero": "7c 2h",
+        "flop": "Ts 9s 2c",
+        "board": "Ts 9s 2c 7s 8s",
+        "rank": 3209,
+        "rank_variance": 0,
+        "equity": 0.37373737373737376,
+        "win_probability": 0.37272727272727274,
+        "tie_probability": 0.00202020202020202,
+        "opponent_combos": 990
+      },
+      "high_equity_state": {
+        "hero": "7c 2h",
+        "flop": "Ts 9s 2c",
+        "board": "Ts 9s 2c 3c 7h",
+        "rank": 3209,
+        "rank_variance": 0,
+        "equity": 0.896969696969697,
+        "win_probability": 0.8949494949494949,
+        "tie_probability": 0.00404040404040404,
+        "opponent_combos": 990
+      }
+    }
+  },
+  "H3": {
+    "flop_pair_comparisons": 1035,
+    "rank_variance_vs_equity_variance_inversions": 208,
+    "largest_inversion": {
+      "higher_rank_variance": {
+        "hero": "As Ks",
+        "flop": "Ts 9s 2c",
+        "rank_mean": 3177.059204440333,
+        "rank_variance": 5496210.033497609,
+        "equity": 0.7075220287986246,
+        "board_equity_variance": 0.07566362821016051,
+        "expected_squared_board_equity": 0.5762510494454822,
+        "tie_probability": 0.0072080658574645625,
+        "completed_boards": 1081,
+        "joint_deals": 1070190,
+        "turn_branches_with_increased_rank_variance": 0,
+        "expected_turn_rank_variance": 3229993.543739693,
+        "variance_of_turn_rank_means": 2266216.4897579164,
+        "rank_uncertainty_resolved_fraction": 0.4123234876298514
+      },
+      "lower_rank_variance": {
+        "hero": "6s 5s",
+        "flop": "Ts 9s 2c",
+        "rank_mean": 3898.917668825162,
+        "rank_variance": 5142777.542712789,
+        "equity": 0.4784234575168895,
+        "board_equity_variance": 0.1658998735303844,
+        "expected_squared_board_equity": 0.3947888782327994,
+        "tie_probability": 0.024395668058942804,
+        "completed_boards": 1081,
+        "joint_deals": 1070190,
+        "turn_branches_with_increased_rank_variance": 12,
+        "expected_turn_rank_variance": 3162730.51389615,
+        "variance_of_turn_rank_means": 1980047.028816638,
+        "rank_uncertainty_resolved_fraction": 0.38501510368114683
+      },
+      "equity_variance_reversal": 0.0902362453202239
+    }
+  },
+  "H4": {
+    "states": [
+      {
+        "hero": "As Ah",
+        "flop": "Ts 9s 2c",
+        "random_equity": 0.842997505115914,
+        "set_range_equity": 0.12373737373738182,
+        "set_range_outcomes": 5940
+      },
+      {
+        "hero": "Qs Js",
+        "flop": "Ts 9s 2c",
+        "random_equity": 0.7352806510993375,
+        "set_range_equity": 0.42121212121214024,
+        "set_range_outcomes": 5940
+      }
+    ],
+    "ordering_reversed": true
+  },
+  "public_api_checks": [
+    {
+      "street": "turn",
+      "hero": "As Ah",
+      "board": "Ks 8h 7d 2s",
+      "exact_outcomes": 45540,
+      "variance_absolute_error": 1.0684016160666943e-07,
+      "equity_absolute_error": 9.547918011776346e-15
+    },
+    {
+      "street": "turn",
+      "hero": "7c 2h",
+      "board": "Ac Kd 4h Ad",
+      "exact_outcomes": 45540,
+      "variance_absolute_error": 1.1810334399342537e-07,
+      "equity_absolute_error": 5.6316062924111066e-14
+    },
+    {
+      "street": "turn",
+      "hero": "7c 2h",
+      "board": "Qs Js 8s 9s",
+      "exact_outcomes": 45540,
+      "variance_absolute_error": 2.312473952770233e-06,
+      "equity_absolute_error": 3.397282455352979e-14
+    },
+    {
+      "street": "river",
+      "hero": "7c 2h",
+      "board": "Ts 9s 2c 7s 8s",
+      "exact_outcomes": 990
+    },
+    {
+      "street": "river",
+      "hero": "7c 2h",
+      "board": "Ts 9s 2c 3c 7h",
+      "exact_outcomes": 990
+    },
+    {
+      "street": "flop",
+      "hero": "As Ah",
+      "board": "Ks 8h 7d",
+      "samples": 20000,
+      "abs_z": 0.5954853666309451
+    },
+    {
+      "street": "flop",
+      "hero": "7c 2h",
+      "board": "Ac Kd 4h",
+      "samples": 20000,
+      "abs_z": 1.6086522190000188
+    }
+  ],
+  "elapsed_seconds": 8.470719337463379
+}

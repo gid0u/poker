@@ -1,0 +1,31 @@
+{
+  "hypotheses": {
+    "H1": "Rank variance never increases on a particular flop-to-turn branch",
+    "H2": "On the river, zero rank variance implies equity is zero or one",
+    "H3": "Larger rank variance always means larger variance of board-conditional equity",
+    "H4": "The equity ordering of two hands is independent of opponent range"
+  },
+  "boards": [
+    "Ks 8h 7d",
+    "Ts 9s 2c",
+    "Qs Js 8s",
+    "9c 9h 2d",
+    "7s 6h 5d",
+    "Ac Kd 4h"
+  ],
+  "hero_real_cards": [
+    "As Ah",
+    "Kc Kh",
+    "Qc Qh",
+    "As Ks",
+    "Qs Js",
+    "6s 5s",
+    "5c 5h",
+    "7c 2h"
+  ],
+  "selection": "fixed 6 textures x 8 hero representatives, discard card collisions",
+  "method": "exact uniform remaining board pairs and all 990 legal opponent hands on each final board",
+  "measure": "one uniform random opponent, shared board, showdown; q(B)=equity conditional on the completed board",
+  "checks": "conditional total variance identities; independent public API exact turn and river checks; public API sampling on flops",
+  "limits": "finite designed state panel; not all possible flops or hole cards; no betting decisions"
+}
