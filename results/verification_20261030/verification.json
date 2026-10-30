@@ -1,0 +1,82 @@
+{
+  "timestamp_utc": "2026-10-30T06:19:08.303284+00:00",
+  "seed": 20261030,
+  "python": "3.14.3",
+  "checks": {
+    "complete_dictionary_integrity": {
+      "status": "passed",
+      "entries": 133784560,
+      "checksum_verified": true,
+      "rank_histogram_matches": true
+    },
+    "independent_evaluator_and_index": {
+      "status": "passed",
+      "random_hands": 1000,
+      "reference": "max over 21 five-card evaluations"
+    },
+    "relative_suit_and_order_invariance": {
+      "status": "passed",
+      "suit_permutations": 24,
+      "exact_outcomes": 660
+    },
+    "heads_up_swap_complement": {
+      "status": "passed",
+      "fixed_hand_pairs": 4
+    },
+    "sampling_against_exact": {
+      "status": "passed",
+      "seeds": 10,
+      "samples_each": 10000,
+      "exact_equity": 0.6515151515151546,
+      "max_abs_z": 2.067575899334878,
+      "acceptance": "5 standard errors; not a 95% coverage proof"
+    },
+    "wildcard_explicit_equivalence": {
+      "status": "passed",
+      "outcomes": 396
+    },
+    "multiway_payoff_conservation": {
+      "status": "passed",
+      "random_deals": 200,
+      "terminal_histories_each": 5,
+      "payoffs_checked": 1000
+    },
+    "weighted_joint_deal_sampling": {
+      "status": "passed",
+      "exact_legal_deals": 3,
+      "samples": 20000,
+      "acceptance": "5 binomial standard errors"
+    },
+    "saved_preflop_dataset_consistency": {
+      "status": "passed",
+      "classes": 169,
+      "weighted_mean": 4095.8835905428846,
+      "weighted_variance": 3144968.317189278,
+      "weighted_equity": 0.5000298514328808,
+      "weighted_equity_z": 0.724582013783429,
+      "fresh_sampling": [
+        {
+          "hand": "AA",
+          "new_equity": 0.853475,
+          "saved_equity": 0.8519335,
+          "abs_z": 1.3206211636288536
+        },
+        {
+          "hand": "55",
+          "new_equity": 0.59931,
+          "saved_equity": 0.603601,
+          "abs_z": 2.6604495822311867
+        },
+        {
+          "hand": "72o",
+          "new_equity": 0.34282,
+          "saved_equity": 0.3460085,
+          "abs_z": 2.093129231021667
+        }
+      ]
+    }
+  },
+  "dictionary_sha256": "d3f670fbe1c5a31cc4b36eda3743351753dd6cc46ea278bfea12d55a56751944",
+  "elapsed_seconds": 11.889691352844238,
+  "status": "passed"
+}
