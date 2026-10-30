@@ -1,0 +1,30 @@
+{
+  "method": "independent whole-joint rejection",
+  "selection": "99 vs TT selected after exploratory 9-player results; fresh draws",
+  "results": [
+    {
+      "hand": "99",
+      "hero": "9s 9c",
+      "equity": 0.07451111111111111,
+      "se": 0.0017927677022233077,
+      "samples": 20000,
+      "primary_equity": 0.07623748260933973,
+      "primary_se": 0.0013986544410641108
+    },
+    {
+      "hand": "TT",
+      "hero": "Ts Tc",
+      "equity": 0.06911111111111111,
+      "se": 0.0017649001134022232,
+      "samples": 20000,
+      "primary_equity": 0.0671446215181307,
+      "primary_se": 0.001194623041641046
+    }
+  ],
+  "gap_99_minus_tt": 0.005400000000000002,
+  "gap_ci95": [
+    0.0004691727014533983,
+    0.010330827298546605
+  ],
+  "sign_confirmed": true
+}

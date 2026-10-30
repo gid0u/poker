@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "new_conditions": 154,
+  "checks": [
+    {
+      "hand": "JTs",
+      "model": "tight",
+      "participants": 9,
+      "verification_equity": 0.05775925925925926,
+      "verification_se": 0.002974626358750705,
+      "main_equity": 0.05909865239207217,
+      "combined_abs_z": 0.41553515438365674,
+      "samples": 6000
+    },
+    {
+      "hand": "JJ",
+      "model": "tight",
+      "participants": 9,
+      "verification_equity": 0.07825925925925925,
+      "verification_se": 0.0034063568489722377,
+      "main_equity": 0.07903195164301703,
+      "combined_abs_z": 0.20896134745801295,
+      "samples": 6000
+    },
+    {
+      "hand": "A5s",
+      "model": "random",
+      "participants": 6,
+      "verification_equity": 0.22391666666666668,
+      "verification_se": 0.005234247703161001,
+      "main_equity": 0.2219816666666667,
+      "combined_abs_z": 0.35911019247146986,
+      "samples": 6000
+    },
+    {
+      "hand": "KQo",
+      "model": "tight",
+      "participants": 5,
+      "verification_equity": 0.08022222222222222,
+      "verification_se": 0.0034683876327565454,
+      "main_equity": 0.0760154771268773,
+      "combined_abs_z": 1.174958482603811,
+      "samples": 6000
+    },
+    {
+      "hand": "44",
+      "model": "random",
+      "participants": 3,
+      "verification_equity": 0.3679444444444444,
+      "verification_se": 0.006185002161473308,
+      "main_equity": 0.36569333333333337,
+      "combined_abs_z": 0.35351469077774245,
+      "samples": 6000
+    }
+  ],
+  "min_strict_ess": 21730.610123210023,
+  "criterion": "less than 5 combined standard errors, not a 95% coverage or equivalence proof"
+}

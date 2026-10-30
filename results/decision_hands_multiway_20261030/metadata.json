@@ -1,0 +1,26 @@
+{
+  "new_hands": [
+    "33",
+    "44",
+    "99",
+    "TT",
+    "JJ",
+    "AQs",
+    "A5s",
+    "KQo",
+    "KQs",
+    "JTs",
+    "T9s"
+  ],
+  "new_conditions": 154,
+  "samples_per_condition": 100000,
+  "seed": 20261107,
+  "target": "one to eight opponents; independent range priors jointly conditioned on no duplicate cards",
+  "tight": "99+,AQs+,AKo",
+  "strict_method": "self-normalized sequential importance sampling; asymptotic normal CI and potential finite-sample bias",
+  "random_method": "uniform without replacement",
+  "prior": "11 previously studied hands for 2-9 total participants; new hands heads-up reuse previous estimates",
+  "equity": "expected share at showdown, ties split",
+  "limits": "no betting, folds, rake, sidepots or behavioral inference",
+  "elapsed_seconds": 116.33541226387024
+}
