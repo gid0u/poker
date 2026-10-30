@@ -1,0 +1,82 @@
+{
+  "exact_variance_decomposition": {
+    "mean_rank": 4095.8835905428846,
+    "total_rank_variance": 3144968.3171892767,
+    "expected_conditional_rank_variance": 3047883.9623700823,
+    "variance_of_conditional_means": 97084.35481919417,
+    "within_fraction": 0.9691302598221528,
+    "between_fraction": 0.030869740177847157,
+    "exact_fraction_identity": "3518100821634223335731/1118644280899600"
+  },
+  "finite_dataset_properties": {
+    "classes": 169,
+    "min_mean_hand": "AA",
+    "min_variance_hand": "AA",
+    "hands_weakly_dominated_by_AA_in_minimizing_mean_and_variance": 169,
+    "suited_offsuit_pairs": 78,
+    "all_suited_mean_rank_better": true,
+    "all_suited_rank_variance_larger": true,
+    "min_suited_mean_improvement": {
+      "suited": "87s",
+      "offsuit": "87o",
+      "mean_rank_improvement_exact": 165.0648700183126,
+      "variance_increase_exact": 248618.83014171236,
+      "equity_improvement_estimate": 0.0295415,
+      "equity_difference_se": 0.0006884319324917138
+    },
+    "max_suited_mean_improvement": {
+      "suited": "AKs",
+      "offsuit": "AKo",
+      "mean_rank_improvement_exact": 201.64986312748965,
+      "variance_increase_exact": 417316.9959276658,
+      "equity_improvement_estimate": 0.016018499999999936,
+      "equity_difference_se": 0.0006627443848542737
+    },
+    "min_suited_equity_gain_estimate": {
+      "suited": "AKs",
+      "offsuit": "AKo",
+      "mean_rank_improvement_exact": 201.64986312748965,
+      "variance_increase_exact": 417316.9959276658,
+      "equity_improvement_estimate": 0.016018499999999936,
+      "equity_difference_se": 0.0006627443848542737
+    },
+    "max_suited_equity_gain_estimate": {
+      "suited": "42s",
+      "offsuit": "42o",
+      "mean_rank_improvement_exact": 175.66004502633615,
+      "variance_increase_exact": 346579.2284134874,
+      "equity_improvement_estimate": 0.03633750000000002,
+      "equity_difference_se": 0.0006515778206173122
+    }
+  },
+  "exact_counterexample_same_mean_variance_different_random_equity": [
+    {
+      "hero": "As Ah",
+      "board": "Ks 8h 7d 3c 2s",
+      "mean_rank": 3360.0,
+      "variance_rank": 0.0,
+      "equity": 0.8934343434343434,
+      "win_probability": 0.8929292929292929,
+      "tie_probability": 0.001010101010101004,
+      "opponent_combos": 990
+    },
+    {
+      "hero": "As Ah",
+      "board": "Kc 8c 7c 3h 2s",
+      "mean_rank": 3360.0,
+      "variance_rank": 0.0,
+      "equity": 0.8489898989898989,
+      "win_probability": 0.8484848484848484,
+      "tie_probability": 0.001010101010101004,
+      "opponent_combos": 990
+    }
+  ],
+  "share_variance_55_estimate": {
+    "equity": 0.603601,
+    "tie_probability": 0.013868,
+    "showdown_share_variance": 0.235799832799,
+    "board_conditional_equity_variance_lower_bound": 0,
+    "board_conditional_equity_variance_upper_bound": 0.235799832799,
+    "note": "share variance reconstructed from estimated equity and ties; not the variance of board-conditional equity"
+  }
+}
