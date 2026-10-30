@@ -22,7 +22,7 @@ class Repository:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connect() as conn:
             version = conn.execute("PRAGMA user_version").fetchone()[0]
-            if version > 1:
+            if version > 2:
                 raise ValueError("Database schema is newer than this application")
             conn.execute("PRAGMA journal_mode=WAL")
             if version == 0:
@@ -47,6 +47,32 @@ class Repository:
                     PRAGMA user_version=1;
                     COMMIT;
                 ''')
+
+            if version < 2:
+                conn.executescript("""
+                    BEGIN;
+                    CREATE TABLE research_results(
+                        id TEXT PRIMARY KEY, session_id TEXT NOT NULL REFERENCES sessions(id),
+                        kind TEXT NOT NULL, result_json TEXT NOT NULL, created_at TEXT NOT NULL);
+                    CREATE INDEX research_results_session ON research_results(session_id, created_at);
+                    PRAGMA user_version=2;
+                    COMMIT;
+                """)
+
+    def save_research_result(self, session_id, kind, result):
+        if kind not in ('board_distribution', 'relative_strength'):
+            raise ValueError('Unsupported research result kind')
+        identifier = uuid4().hex
+        with self.connect() as conn:
+            conn.execute('INSERT INTO research_results VALUES(?,?,?,?,?)',
+                         (identifier, session_id, kind, encode(result), now()))
+        return identifier
+
+    def research_results(self, session_id):
+        with self.connect() as conn:
+            return [dict(r) for r in conn.execute(
+                'SELECT * FROM research_results WHERE session_id=? ORDER BY created_at DESC, rowid DESC',
+                (session_id,))]
 
     @contextmanager
     def connect(self):

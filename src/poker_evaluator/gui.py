@@ -237,9 +237,16 @@ class PokerStudio(ttk.Frame):
         self.relative_mode.pack(side='left')
         ttk.Button(bar, text='相対勝率を計算', command=self.analyze_relative).pack(side='left', padx=10)
         ttk.Button(bar, text='結果JSON保存', command=self.export_relative).pack(side='right')
+        extra = ttk.Frame(tab)
+        extra.pack(fill='x')
+        ttk.Button(extra,text='ボード別分布を計算',command=self.analyze_board_distribution).pack(side='left')
+        ttk.Button(extra,text='分布をDB保存',command=lambda:self.save_research('board_distribution')).pack(side='left',padx=4)
+        ttk.Button(extra,text='相対勝率をDB保存',command=lambda:self.save_research('relative_strength')).pack(side='left',padx=4)
+        ttk.Button(extra,text='研究結果の履歴',command=self.research_history).pack(side='left',padx=4)
         self.relative_text = tk.Text(tab, height=12, wrap='word', state='disabled')
         self.relative_text.pack(fill='both', expand=True)
         self.relative_result = None
+        self.board_distribution_result = None
         ttk.Label(tab, text='exact=全列挙（上限100万候補）、sampling=推定。相手レンジの仮定誤差やベットEVは含みません。', wraplength=1000).pack(anchor='w', pady=6)
 
     def analyze_relative(self):
@@ -286,6 +293,69 @@ class PokerStudio(ttk.Frame):
         self.relative_text.insert('end', text)
         self.relative_text.configure(state='disabled')
         self.status.set('同じカード条件で順位・分散・相対勝率を計算しました。')
+
+    def analyze_board_distribution(self):
+        if not self.guard(): return
+        self.board_distribution_result = None
+        values = {k: entry.get().strip() for k,entry in self.relative_fields.items()}
+        ranges = [line.strip() for line in self.relative_ranges.get('1.0','end').splitlines() if line.strip()]
+        if values['pattern'] or len(ranges) != 1:
+            messagebox.showerror('分布入力','通常の実カード入力と相手1人を指定してください。')
+            return
+        from .seven_card_dictionary import SevenCardRankDictionary
+        from .board_distribution import evaluate_board_distribution
+        def task():
+            with SevenCardRankDictionary() as table:
+                return evaluate_board_distribution(values['hero'],values['board'],ranges[0],dead_cards=values['dead'],ranker=table)
+        self.run(task,self.board_distribution_done)
+
+    def board_distribution_done(self, result):
+        from dataclasses import asdict
+        self.board_distribution_result=asdict(result)
+        self.show_board_distribution(self.board_distribution_result)
+
+    def show_board_distribution(self, result):
+        c=result['conditions']; q=result['quantiles']
+        lines=[f"自分: {' '.join(c['hero'])} / ボード: {' '.join(c['board'])}",
+               f"相手: {c['opponent']} / 全列挙ボード: {result['boards']:,} / 配布: {result['deals']:,}",
+               f"平均: {result['mean']:.4%} / ボード別エクイティ分散: {result['variance']:.6f}",
+               f"10%点: {q['0.1']:.4%} / 中央値: {q['0.5']:.4%} / 90%点: {q['0.9']:.4%}", '', 'ボード別エクイティの分布:']
+        for i,mass in enumerate(result['histogram']):
+            lines.append(f"{10*i:2d}〜{10*(i+1):3d}%  {mass:7.2%}  {'■'*round(mass*40)}")
+        self.relative_text.configure(state='normal'); self.relative_text.delete('1.0','end')
+        self.relative_text.insert('end','\n'.join(lines)); self.relative_text.configure(state='disabled')
+        self.status.set('ボード別エクイティの分布を計算しました。')
+
+    def save_research(self, kind):
+        result=self.board_distribution_result if kind=='board_distribution' else self.relative_result
+        if result is None:
+            messagebox.showinfo('DB保存','先に対象の計算を実行してください。'); return
+        try:
+            self.repository.save_research_result(self.session_id(),kind,result)
+            self.status.set('研究結果と条件をセッションに保存しました。')
+        except (ValueError, OSError) as exc:
+            messagebox.showerror('DB保存',str(exc))
+
+    def research_history(self):
+        try: rows=self.repository.research_results(self.session_id())
+        except ValueError as exc:
+            messagebox.showerror('履歴',str(exc)); return
+        dialog=tk.Toplevel(self.root); dialog.title('研究結果の履歴')
+        listing=tk.Listbox(dialog,width=85,height=15,exportselection=False);listing.pack(fill='both',expand=True)
+        for row in rows:
+            data=json.loads(row['result_json']);c=data.get('conditions',{})
+            listing.insert('end',f"{row['created_at']}  {row['kind']}  {' '.join(c.get('hero',[]))}  {' '.join(c.get('board',[]))}")
+        def load():
+            selected=listing.curselection()
+            if not selected:return
+            row=rows[selected[0]]; data=json.loads(row['result_json'])
+            if row['kind']=='board_distribution':
+                self.board_distribution_result=data;self.show_board_distribution(data)
+            else:
+                from types import SimpleNamespace
+                self.relative_done(SimpleNamespace(**data))
+            dialog.destroy()
+        ttk.Button(dialog,text='選択結果を表示',command=load).pack(pady=8)
 
     def export_relative(self):
         if self.relative_result is None:

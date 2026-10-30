@@ -34,7 +34,7 @@ class StudioTests(unittest.TestCase):
 
     def test_newer_schema_rejected(self):
         with self.db.connect() as conn:
-            conn.execute("PRAGMA user_version=2")
+            conn.execute("PRAGMA user_version=3")
         with self.assertRaises(ValueError):
             Repository(self.db.path)
 
