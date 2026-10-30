@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "rank_pair_groups": 91,
+  "heldout_labels_do_not_affect_own_predictions": true,
+  "synthetic_quadratic_recovery_max_error": 2.3869795029440866e-15,
+  "saved_predictions_reproduced": true,
+  "primary_metrics_reproduced": true
+}

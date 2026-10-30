@@ -1,0 +1,231 @@
+{
+  "H1": {
+    "primary_rmse_improvement": {
+      "class": 0.17321115438262868,
+      "combo": 0.23809689414961244
+    },
+    "supported_in_primary_test": true,
+    "metrics": [
+      {
+        "weighting": "class",
+        "model": "mean_linear",
+        "rmse_pp": 5.418334633360322,
+        "mae_pp": 4.766073699858833,
+        "max_absolute_error_pp": 10.359016450576819
+      },
+      {
+        "weighting": "class",
+        "model": "mean_variance_linear",
+        "rmse_pp": 5.417709662115562,
+        "mae_pp": 4.831040532949831,
+        "max_absolute_error_pp": 9.859780470122558
+      },
+      {
+        "weighting": "class",
+        "model": "mean_quadratic",
+        "rmse_pp": 4.983192560861103,
+        "mae_pp": 4.221844117271212,
+        "max_absolute_error_pp": 11.47382945100157
+      },
+      {
+        "weighting": "class",
+        "model": "mean_variance_quadratic",
+        "rmse_pp": 4.120048024883424,
+        "mae_pp": 3.2816713044856116,
+        "max_absolute_error_pp": 17.518573823798267
+      },
+      {
+        "weighting": "class",
+        "model": "mean_quintic",
+        "rmse_pp": 4.79641005449748,
+        "mae_pp": 4.005619919842492,
+        "max_absolute_error_pp": 11.09537406838934
+      },
+      {
+        "weighting": "combo",
+        "model": "mean_linear",
+        "rmse_pp": 5.5674748294458345,
+        "mae_pp": 4.901846800865406,
+        "max_absolute_error_pp": 9.685106178388448
+      },
+      {
+        "weighting": "combo",
+        "model": "mean_variance_linear",
+        "rmse_pp": 5.5450887230658745,
+        "mae_pp": 4.918770455832655,
+        "max_absolute_error_pp": 13.019323366532298
+      },
+      {
+        "weighting": "combo",
+        "model": "mean_quadratic",
+        "rmse_pp": 4.989238673599304,
+        "mae_pp": 4.194983687960391,
+        "max_absolute_error_pp": 12.90595666588883
+      },
+      {
+        "weighting": "combo",
+        "model": "mean_variance_quadratic",
+        "rmse_pp": 3.8013164412441776,
+        "mae_pp": 3.0009605850402563,
+        "max_absolute_error_pp": 16.936967199436637
+      },
+      {
+        "weighting": "combo",
+        "model": "mean_quintic",
+        "rmse_pp": 4.7641635139186,
+        "mae_pp": 4.0215619317999725,
+        "max_absolute_error_pp": 12.026110742388957
+      }
+    ],
+    "largest_residuals": [
+      {
+        "hand": "AA",
+        "kind": "pair",
+        "equity": 0.8519335,
+        "equity_se": 0.0003532558369899022,
+        "mean_rank": 2461.92756706753,
+        "variance_rank": 966204.7172345441,
+        "cv_mean_quadratic": 0.7636570037844186,
+        "cv_mean_variance_quadratic": 0.6767477617620173,
+        "residual_pp": 17.518573823798267
+      },
+      {
+        "hand": "22",
+        "kind": "pair",
+        "equity": 0.5028765,
+        "equity_se": 0.0004952011924177597,
+        "mean_rank": 3724.1244954596086,
+        "variance_rank": 3640836.3838231256,
+        "cv_mean_quadratic": 0.6176147945100157,
+        "cv_mean_variance_quadratic": 0.6445190655939592,
+        "residual_pp": -14.164256559395927
+      },
+      {
+        "hand": "65s",
+        "kind": "suited",
+        "equity": 0.430876,
+        "equity_se": 0.0004810406469562671,
+        "mean_rank": 4020.5190460458,
+        "variance_rank": 3462513.634851241,
+        "cv_mean_quadratic": 0.5275699124734734,
+        "cv_mean_variance_quadratic": 0.5048401446539832,
+        "residual_pp": -7.396414465398321
+      },
+      {
+        "hand": "AKs",
+        "kind": "suited",
+        "equity": 0.669488,
+        "equity_se": 0.00046594370363761223,
+        "mean_rank": 3672.6666182106514,
+        "variance_rank": 3147365.110138842,
+        "cv_mean_quadratic": 0.6267224265662468,
+        "cv_mean_variance_quadratic": 0.5964499085513142,
+        "residual_pp": 7.303809144868579
+      },
+      {
+        "hand": "99",
+        "kind": "pair",
+        "equity": 0.720358,
+        "equity_se": 0.0004466106260458334,
+        "mean_rank": 3033.183126923295,
+        "variance_rank": 1777920.6996528099,
+        "cv_mean_quadratic": 0.7548639041498163,
+        "cv_mean_variance_quadratic": 0.7917433902669255,
+        "residual_pp": -7.1385390266925475
+      },
+      {
+        "hand": "88",
+        "kind": "pair",
+        "equity": 0.6915235,
+        "equity_se": 0.0004594493552519799,
+        "mean_rank": 3132.9781664747306,
+        "variance_rank": 1988621.009487616,
+        "cv_mean_quadratic": 0.7414032117951234,
+        "cv_mean_variance_quadratic": 0.7626470107838698,
+        "residual_pp": -7.112351078386981
+      },
+      {
+        "hand": "54s",
+        "kind": "suited",
+        "equity": 0.4146585,
+        "equity_se": 0.00047753356574805966,
+        "mean_rank": 4066.6894206988995,
+        "variance_rank": 3565758.133411271,
+        "cv_mean_quadratic": 0.5119960642319553,
+        "cv_mean_variance_quadratic": 0.485753527947809,
+        "residual_pp": -7.109502794780903
+      },
+      {
+        "hand": "K2o",
+        "kind": "offsuit",
+        "equity": 0.505066,
+        "equity_se": 0.0004893925573086243,
+        "mean_rank": 4305.363447960128,
+        "variance_rank": 3077210.3710106984,
+        "cv_mean_quadratic": 0.4225909839009093,
+        "cv_mean_variance_quadratic": 0.4347791989328275,
+        "residual_pp": 7.02868010671725
+      }
+    ]
+  },
+  "H2": {
+    "constant_gain_estimate": 0.027473056173450597,
+    "heterogeneity_Q": 4669.920540903827,
+    "degrees_of_freedom": 77,
+    "Q_over_df": 60.64831871303671,
+    "normal_approximation_assumed": true,
+    "min_pair": {
+      "suited": "AKs",
+      "gap": 0.016018499999999936,
+      "se": 0.0006627443848542737,
+      "simultaneous95_low": 0.013756133058296423,
+      "simultaneous95_high": 0.018280866941703448
+    },
+    "max_pair": {
+      "suited": "42s",
+      "gap": 0.03633750000000002,
+      "se": 0.0006515778206173122,
+      "simultaneous95_low": 0.034113251624608716,
+      "simultaneous95_high": 0.03856174837539133
+    },
+    "all_78_simultaneous95_gain_lower_bounds_positive": true,
+    "bonferroni_z": 3.4136342659485033
+  },
+  "H3": {
+    "pairwise_comparisons": 14196,
+    "estimated_inversions": 2338,
+    "simultaneous95_clear_inversions": 2235,
+    "discovery": {
+      "better_mean_hand": "65s",
+      "worse_mean_hand": "A9o",
+      "mean_rank_difference": 7.756563744831965,
+      "reverse_equity_gap": 0.17652300000000004,
+      "se": 0.0006806590855338601,
+      "bonferroni95_low": 0.17336626910657957
+    },
+    "fresh_confirmation": [
+      {
+        "hand": "65s",
+        "representative": "6s 5s",
+        "samples": 500000,
+        "equity": 0.431892,
+        "se": 0.0006802025624937413,
+        "seed": 20261031
+      },
+      {
+        "hand": "A9o",
+        "representative": "As 9c",
+        "samples": 500000,
+        "equity": 0.607591,
+        "se": 0.000680890799366948,
+        "seed": 20261032
+      }
+    ],
+    "fresh_gap": 0.175699,
+    "fresh_gap_ci95": [
+      0.1738126206006841,
+      0.1775853793993159
+    ],
+    "direction_confirmed": true
+  }
+}

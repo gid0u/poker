@@ -1,0 +1,32 @@
+{
+  "hypotheses": {
+    "H1": "Adding rank variance reduces out-of-rank-pair CV RMSE at least 10% under both class and combo weighting",
+    "H2": "Suited-minus-offsuit equity gain is constant across 78 rank pairs",
+    "H3": "Lower mean final rank always means higher random-opponent equity"
+  },
+  "primary_models": [
+    "mean quadratic (3 coefficients)",
+    "mean+variance quadratic (6 coefficients)"
+  ],
+  "sensitivity_models": [
+    "mean linear (2)",
+    "mean+variance linear (3)",
+    "mean quintic (6, equal parameter count)"
+  ],
+  "validation": "leave one rank pair out: suited and offsuit are held out together; pairs are separate groups",
+  "weights": [
+    "169 classes equally",
+    "physical combos 6/4/12"
+  ],
+  "monte_carlo": "existing 1M samples per class are estimated targets; no simultaneous confidence claim for model errors",
+  "confirmation": {
+    "selection": "largest estimated equity inversion after discovery, then freeze pair before new sampling",
+    "samples_each": 500000,
+    "seeds": [
+      20261031,
+      20261032
+    ],
+    "criterion": "one-sided direction also excludes zero in two-sided 95% normal difference interval"
+  },
+  "interpretation": "exploratory analysis of 169 fixed classes; cross-validation is not proof of generality to other streets or ranges"
+}
