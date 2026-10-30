@@ -1,0 +1,44 @@
+{
+  "seed": 20261102,
+  "samples_each": 300000,
+  "hero": {
+    "AA": "As Ac",
+    "22": "2s 2c",
+    "55": "5s 5c",
+    "65s": "6s 5s",
+    "A9o": "As 9c",
+    "AKs": "As Ks",
+    "AKo": "As Kc",
+    "72o": "7s 2c",
+    "32o": "3s 2c",
+    "42s": "4s 2s",
+    "42o": "4s 2c"
+  },
+  "opponent_counts": [
+    1,
+    2,
+    3
+  ],
+  "opponent_models": {
+    "random": "uniform legal combinations",
+    "tight": "99+,AQs+,AKo"
+  },
+  "measure": "independent uniform opponent priors conditioned jointly on no card overlap; shared uniform board",
+  "equity": "expected pot share; k-way tie = 1/k",
+  "assumption": "all opponents reach showdown; no betting, rake or side pots",
+  "one_opponent": "previous 1M random and 300k tight estimates",
+  "ci": "normal approximation: equity +/- 1.96 standard error; per hand",
+  "checks": [
+    {
+      "model": "random",
+      "equity": 0.29923333333333363,
+      "combined_abs_z": 0.7926478745248645
+    },
+    {
+      "model": "tight",
+      "equity": 0.2342333333333333,
+      "combined_abs_z": 0.042132432649567786
+    }
+  ],
+  "elapsed_seconds": 21.70371127128601
+}

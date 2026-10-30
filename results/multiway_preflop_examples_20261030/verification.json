@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "rows": 66,
+  "checks": [
+    {
+      "model": "random",
+      "opponents": 3,
+      "samples": 12000,
+      "api_equity": 0.23778472222222216,
+      "combined_abs_z": 0.10029747742270019
+    },
+    {
+      "model": "tight",
+      "opponents": 3,
+      "samples": 12000,
+      "api_equity": 0.2136875,
+      "combined_abs_z": 0.06886533900783748
+    }
+  ]
+}
