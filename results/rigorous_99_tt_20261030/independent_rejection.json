@@ -1,0 +1,29 @@
+{
+  "method": "independent full-joint rejection, 50000 accepted deals per hand",
+  "hands": {
+    "99": {
+      "samples": 50000,
+      "seed": 20261126,
+      "equity": 0.07652888888888888,
+      "se": 0.0011466673304179064,
+      "wins": 3364,
+      "ties": 1201
+    },
+    "TT": {
+      "samples": 50000,
+      "seed": 20261127,
+      "equity": 0.07222888888888888,
+      "se": 0.0011408451946085122,
+      "wins": 3450,
+      "ties": 613
+    }
+  },
+  "difference": 0.004299999999999998,
+  "se": 0.001617520857580842,
+  "ci95": [
+    0.001129659119141548,
+    0.0074703408808584485
+  ],
+  "combined_abs_z_vs_paired": 1.2080937765222668,
+  "caveat": "normal approximation, independent random seeds; finite sampling uncertainty"
+}

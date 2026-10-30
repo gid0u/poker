@@ -1,0 +1,88 @@
+{
+  "method": "paired self-normalized importance sampling",
+  "proposals": 2000000,
+  "zero_weight": 0,
+  "effective_sample_size": 439180.8452576882,
+  "equity99": 0.07548591011660473,
+  "equityTT": 0.06922291702194977,
+  "difference_99_minus_TT": 0.006262993094655041,
+  "paired_se": 0.0001543462556946096,
+  "paired_ci95": [
+    0.005960474433493607,
+    0.006565511755816476
+  ],
+  "opponent_pair_counts_99_scenario": {
+    "99": 0.6561028685662471,
+    "TT": 1.4044298366783683,
+    "JJ": 1.4055738507041173,
+    "QQ": 1.1515262783055895,
+    "KK": 0.7149116772174647,
+    "AA": 0.5166722251223402,
+    "AK": 1.6142203715096495
+  },
+  "outcome_transition_matrix_99_rows_TT_columns": [
+    [
+      0.9039795060302853,
+      0.00026131290050315927,
+      0.005777214979865154
+    ],
+    [
+      0.01209947638859832,
+      0.011558753368785184,
+      3.2759176066554963e-06
+    ],
+    [
+      0.00609153211769991,
+      4.621067321734409e-06,
+      0.06022430722933455
+    ]
+  ],
+  "outcome_categories": [
+    "loss",
+    "tie",
+    "sole_win"
+  ],
+  "board_group_decomposition": [
+    {
+      "board_group": "neither",
+      "probability": 0.7518576169160676,
+      "conditional_mean_difference": 0.01608703821838417,
+      "contribution": 0.012095162218112025,
+      "contribution_se": 0.00013901900425919374,
+      "ci95_low": 0.011822684969764005,
+      "ci95_high": 0.012367639466460044,
+      "sample_count": 1409548
+    },
+    {
+      "board_group": "9 only",
+      "probability": 0.08586715090379221,
+      "conditional_mean_difference": 2.1070586646875534e-05,
+      "contribution": 1.8092712432386909e-06,
+      "contribution_se": 2.0433657534884745e-06,
+      "ci95_low": -2.1957256335987186e-06,
+      "ci95_high": 5.814268120076101e-06,
+      "sample_count": 245546
+    },
+    {
+      "board_group": "T only",
+      "probability": 0.15296652114031536,
+      "conditional_mean_difference": -0.000733351303995737,
+      "contribution": -0.00011217819774594174,
+      "contribution_se": 6.94603567125055e-06,
+      "ci95_low": -0.00012579242766159283,
+      "ci95_high": -9.856396783029067e-05,
+      "sample_count": 313654
+    },
+    {
+      "board_group": "both",
+      "probability": 0.009308711039824401,
+      "conditional_mean_difference": -0.6146715879862797,
+      "contribution": -0.005721800196954278,
+      "contribution_se": 6.558999424722971e-05,
+      "ci95_low": -0.0058503565856788484,
+      "ci95_high": -0.005593243808229708,
+      "sample_count": 31252
+    }
+  ],
+  "elapsed_seconds": 48.5182626247406
+}

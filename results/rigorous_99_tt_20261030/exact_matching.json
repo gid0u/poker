@@ -1,0 +1,112 @@
+{
+  "unordered_opponent_matchings": 563904,
+  "labelled_opponent_deals": 22736609280,
+  "expected_opponent_pair_counts_hero99": {
+    "99": {
+      "numerator": 5139,
+      "denominator": 7832,
+      "value": 0.6561542390194075
+    },
+    "TT": {
+      "numerator": 5505,
+      "denominator": 3916,
+      "value": 1.4057711950970377
+    },
+    "JJ": {
+      "numerator": 5505,
+      "denominator": 3916,
+      "value": 1.4057711950970377
+    },
+    "QQ": {
+      "numerator": 9027,
+      "denominator": 7832,
+      "value": 1.1525791624106232
+    },
+    "KK": {
+      "numerator": 127,
+      "denominator": 178,
+      "value": 0.7134831460674157
+    },
+    "AA": {
+      "numerator": 4047,
+      "denominator": 7832,
+      "value": 0.516726251276813
+    }
+  },
+  "probability_any_opponent_pair_hero99": {
+    "99": {
+      "numerator": 5139,
+      "denominator": 7832,
+      "value": 0.6561542390194075
+    },
+    "TT": {
+      "numerator": 954,
+      "denominator": 979,
+      "value": 0.9744637385086823
+    },
+    "JJ": {
+      "numerator": 954,
+      "denominator": 979,
+      "value": 0.9744637385086823
+    },
+    "QQ": {
+      "numerator": 14043,
+      "denominator": 15664,
+      "value": 0.8965143003064351
+    },
+    "KK": {
+      "numerator": 5125,
+      "denominator": 7832,
+      "value": 0.6543667007150153
+    },
+    "AA": {
+      "numerator": 7653,
+      "denominator": 15664,
+      "value": 0.4885725229826353
+    }
+  },
+  "expected_board_9_count_hero99": {
+    "numerator": 13465,
+    "denominator": 133144,
+    "value": 0.10113110617076249
+  },
+  "expected_board_T_count_hero99": {
+    "numerator": 11635,
+    "denominator": 66572,
+    "value": 0.17477317791263594
+  },
+  "board_high_card_count_probabilities": {
+    "0": {
+      "numerator": 4095,
+      "denominator": 11594,
+      "value": 0.3531999309987925
+    },
+    "1": {
+      "numerator": 20475,
+      "denominator": 46376,
+      "value": 0.4414999137484906
+    },
+    "2": {
+      "numerator": 4095,
+      "denominator": 23188,
+      "value": 0.17659996549939624
+    },
+    "3": {
+      "numerator": 315,
+      "denominator": 11594,
+      "value": 0.027169225461445574
+    },
+    "4": {
+      "numerator": 35,
+      "denominator": 23188,
+      "value": 0.0015094014145247542
+    },
+    "5": {
+      "numerator": 1,
+      "denominator": 46376,
+      "value": 2.156287735035363e-05
+    }
+  },
+  "explanation": "Each legal matching has 8! labelled seat assignments. All 16 opposing cards are 9 or higher; 6 of the 34 remaining cards are 9 or higher. Uniform five-card board.",
+  "check": "Rank-swap counts match; exact two-opponent count verified against ordered brute force."
+}

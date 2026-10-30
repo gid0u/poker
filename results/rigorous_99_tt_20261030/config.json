@@ -1,0 +1,12 @@
+{
+  "seed": 20261125,
+  "proposals": 2000000,
+  "hero99": "9s 9c",
+  "heroTT": "Ts Tc",
+  "opponents": 8,
+  "range": "99+,AQs+,AKo",
+  "method": "sample 99 deal via joint-corrected sequential importance, swap all 9 and T cards to get a TT deal; compare paired shares",
+  "symmetry": "range maps bijectively to itself under 9/T permutation; uniform combo weights and legal deck preserve probability",
+  "interval": "weighted paired residual standard error, normal approximation; board-group intervals are individual and descriptive",
+  "caveat": "finite-sample self-normalized bias; fixed range assumptions; not exhaustive enumeration"
+}
