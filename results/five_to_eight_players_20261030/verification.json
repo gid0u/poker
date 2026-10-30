@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "conditions": 88,
+  "checks": [
+    {
+      "hand": "AA",
+      "model": "random",
+      "participants": 5,
+      "rejection_equity": 0.54202,
+      "rejection_se": 0.007029619266319184,
+      "main_equity": 0.5575453333333333,
+      "combined_abs_z": 2.1556654620797304
+    },
+    {
+      "hand": "65s",
+      "model": "tight",
+      "participants": 5,
+      "rejection_equity": 0.20064,
+      "rejection_se": 0.005657978492723777,
+      "main_equity": 0.20943990000138799,
+      "combined_abs_z": 1.5136915992592561
+    },
+    {
+      "hand": "AA",
+      "model": "tight",
+      "participants": 8,
+      "rejection_equity": 0.4009833333333333,
+      "rejection_se": 0.006757902486413211,
+      "main_equity": 0.3973571308947365,
+      "combined_abs_z": 0.5153366269649763
+    },
+    {
+      "hand": "65s",
+      "model": "tight",
+      "participants": 8,
+      "rejection_equity": 0.223275,
+      "rejection_se": 0.00588289482868027,
+      "main_equity": 0.2196518388679239,
+      "combined_abs_z": 0.591311175458481
+    },
+    {
+      "hand": "AA",
+      "model": "random",
+      "participants": 5,
+      "rejection_equity": 0.5597666666666665,
+      "rejection_se": 0.0022147915165055126,
+      "main_equity": 0.5575453333333333,
+      "combined_abs_z": 0.818788778559577,
+      "samples": 50000,
+      "reason": "higher-precision follow-up after 5000-sample check"
+    }
+  ],
+  "default_9_player_sampler_matches_explicit": true,
+  "min_strict_ess": 54247.214510415695
+}

@@ -1,4 +1,4 @@
-"""Nine players: exact uniform joint random or importance sampled tight ranges."""
+"""Up to nine players: uniform joint random or importance sampled tight ranges."""
 import argparse,csv,json,time
 from pathlib import Path
 from math import comb,sqrt
@@ -10,13 +10,13 @@ from preflop_random_equity import lookup,draw_distinct
 HANDS={'AA':'As Ac','22':'2s 2c','55':'5s 5c','65s':'6s 5s','A9o':'As 9c','AKs':'As Ks','AKo':'As Kc','72o':'7s 2c','32o':'3s 2c','42s':'4s 2s','42o':'4s 2c'}
 TIGHT='99+,AQs+,AKo'
 
-def proposal(rng,hero,n,pool):
+def proposal(rng,hero,n,pool,players=8):
     deck=np.array([i for i in range(52) if i not in hero],dtype=np.uint8)
     if pool is None:
-        draw=deck[draw_distinct(rng,n,size=21,deck_size=50)]
-        return draw[:,:16].reshape(n,8,2),draw[:,16:],np.ones(n),n
-    legal=pool[~np.isin(pool,hero).any(axis=1)];hands=np.empty((n,8,2),dtype=np.uint8);w=np.ones(n);live=np.ones(n,dtype=bool)
-    for j in range(8):
+        draw=deck[draw_distinct(rng,n,size=2*players+5,deck_size=50)]
+        return draw[:,:2*players].reshape(n,players,2),draw[:,2*players:],np.ones(n),n
+    legal=pool[~np.isin(pool,hero).any(axis=1)];hands=np.empty((n,players,2),dtype=np.uint8);w=np.ones(n);live=np.ones(n,dtype=bool)
+    for j in range(players):
         possible=np.ones((n,len(legal)),dtype=bool)
         if j:
             used=hands[:,:j].reshape(n,2*j)
@@ -26,7 +26,7 @@ def proposal(rng,hero,n,pool):
         chosen=(np.cumsum(possible,axis=1)>k[:,None]).argmax(axis=1)
         hands[:,j,:]=legal[chosen]
     opponents=hands[live];w=w[live];m=len(w)
-    board=np.empty((m,5),dtype=np.uint8);used=opponents.reshape(m,16)
+    board=np.empty((m,5),dtype=np.uint8);used=opponents.reshape(m,2*players)
     for j in range(5):
         board[:,j]=deck[rng.integers(0,50,size=m)]
         bad=(used==board[:,j:j+1]).any(axis=1)
@@ -35,17 +35,17 @@ def proposal(rng,hero,n,pool):
             board[bad,j]=deck[rng.integers(0,50,size=int(bad.sum()))]
             bad=(used==board[:,j:j+1]).any(axis=1)
             if j:bad|=(board[:,:j]==board[:,j:j+1]).any(axis=1)
-    assert np.all([len(set(list(h.ravel())+list(b)))==21 for h,b in zip(opponents[:100],board[:100])])
+    assert np.all([len(set(list(h.ravel())+list(b)))==2*players+5 for h,b in zip(opponents[:100],board[:100])])
     return opponents,board,w,n
 
-def calculate(rng,hero,n,pool,values,choose):
+def calculate(rng,hero,n,pool,values,choose,players=8):
     weighted_sum=weighted_square=weighted_w=weighted_w2=weighted_y2=weighted_w2y=0.;wins=ties=dead=0
     for start in range(0,n,10000):
-        batch=min(10000,n-start);opponents,board,w,_=proposal(rng,hero,batch,pool);m=len(w);dead+=batch-m
+        batch=min(10000,n-start);opponents,board,w,_=proposal(rng,hero,batch,pool,players);m=len(w);dead+=batch-m
         if not m:continue
         card=np.empty((m,7),dtype=np.uint8);card[:,:2]=hero;card[:,2:]=board;own=lookup(card,values,choose)
         allr=[]
-        for j in range(8):
+        for j in range(players):
             card[:,:2]=opponents[:,j,:];allr.append(lookup(card,values,choose))
         rivals=np.stack(allr,axis=1);winner=(own[:,None]<=rivals).all(axis=1);number_tied=(own[:,None]==rivals).sum(axis=1)
         share=np.where(winner,1/(number_tied+1),0.)

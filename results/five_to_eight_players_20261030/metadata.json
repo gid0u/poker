@@ -1,0 +1,18 @@
+{
+  "seed": 20261105,
+  "participants": [
+    5,
+    6,
+    7,
+    8
+  ],
+  "new_conditions": 88,
+  "proposals_per_condition": 100000,
+  "opponent_range": "99+,AQs+,AKo",
+  "model": "uniform random or independently weighted strict ranges conditioned jointly on no overlap",
+  "strict_estimator": "self-normalized sequential importance sampling; finite-sample bias possible",
+  "uncertainty": "individual 95% normal approximation based on weighted residuals; not simultaneous",
+  "baseline": "prior results for 2-4 and 9 participants; sample counts differ",
+  "caveat": "all players reach showdown; no fold/betting/side pots; conditional distributions differ with number of players",
+  "elapsed_seconds": 88.30928087234497
+}
