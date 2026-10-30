@@ -1,0 +1,30 @@
+[
+  {
+    "split": "group_holdout",
+    "target": "random",
+    "weighting": "population",
+    "model": "proxy_distribution",
+    "board": "5s 5c Th",
+    "hero": "4c 5d",
+    "texture": "paired",
+    "hand_category": 3,
+    "weight": 32.5,
+    "actual": 0.93985,
+    "predicted": 0.7262136855008852,
+    "error": -0.2136363144991148
+  },
+  {
+    "split": "group_holdout",
+    "target": "tight",
+    "weighting": "population",
+    "model": "proxy_distribution",
+    "board": "2s 6c Kh",
+    "hero": "8c Kc",
+    "texture": "rainbow",
+    "hand_category": 1,
+    "weight": 57.2,
+    "actual": 0.65305,
+    "predicted": 0.4976513698801924,
+    "error": -0.15539863011980765
+  }
+]

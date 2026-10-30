@@ -1,0 +1,26 @@
+{
+  "seed": 20261031,
+  "board_strata": [
+    "paired",
+    "monotone",
+    "twotone_connected",
+    "twotone_other",
+    "rainbow"
+  ],
+  "boards_per_stratum": 120,
+  "hands_per_board": 4,
+  "samples_per_target": 10000,
+  "independent_proxy_boards": 64,
+  "target_ranges": {
+    "random": "random",
+    "tight": "99+,AQs+,AKo"
+  },
+  "proxy_range": "QQ+,AK",
+  "split": "canonical suit-isomorphic flop, 75% train / 25% test stratified; additionally hold out all monotone boards",
+  "rank_features": "exact over C(47,2) boards without opponent conditioning",
+  "labels": "independent opponent-first Monte Carlo, same sampled completed board for hero and opponent",
+  "proxy": "independent QQ+,AK board samples, exact legal opponent enumeration per sampled board",
+  "weight": "orbit size * number of canonical boards in stratum / sampled canonical boards; uniform sampled hero per board",
+  "modeling": "ridge alpha=2, train-only standardization, clipped to [0,1], fixed nested feature sets",
+  "limitations": "finite random board and hero sample; group holdout not direct proof of generalization to new opponent ranges; conditional target MC errors"
+}

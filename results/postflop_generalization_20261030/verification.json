@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "states": 2400,
+  "train_board_groups": 450,
+  "test_board_groups": 150,
+  "canonical_suit_checks": 57600,
+  "heldout_target_perturbation_invariant": true,
+  "exact_results_match_public_api": true,
+  "bootstrap": [
+    {
+      "target": "random",
+      "comparison": "board minus opponent_proxy",
+      "mean_delta_pp": 0.13173629794933134,
+      "ci_low_pp": 0.010417334457083257,
+      "ci_high_pp": 0.2535650405924615,
+      "resamples": 1000,
+      "scope": "conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap"
+    },
+    {
+      "target": "random",
+      "comparison": "opponent_proxy minus proxy_distribution",
+      "mean_delta_pp": 0.05738701789637578,
+      "ci_low_pp": -0.05856465155641964,
+      "ci_high_pp": 0.17172195963952805,
+      "resamples": 1000,
+      "scope": "conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap"
+    },
+    {
+      "target": "tight",
+      "comparison": "board minus opponent_proxy",
+      "mean_delta_pp": 3.104385948247583,
+      "ci_low_pp": 2.581619431772323,
+      "ci_high_pp": 3.676321024147205,
+      "resamples": 1000,
+      "scope": "conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap"
+    },
+    {
+      "target": "tight",
+      "comparison": "opponent_proxy minus proxy_distribution",
+      "mean_delta_pp": 0.09718410411121424,
+      "ci_low_pp": -0.0002670549813307998,
+      "ci_high_pp": 0.19576895973590114,
+      "resamples": 1000,
+      "scope": "conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap"
+    }
+  ]
+}

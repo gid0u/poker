@@ -1,0 +1,5 @@
+﻿target,comparison,mean_delta_pp,ci_low_pp,ci_high_pp,resamples,scope
+random,board minus opponent_proxy,0.13173629794933134,0.010417334457083257,0.2535650405924615,1000,conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap
+random,opponent_proxy minus proxy_distribution,0.05738701789637578,-0.05856465155641964,0.17172195963952805,1000,conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap
+tight,board minus opponent_proxy,3.104385948247583,2.581619431772323,3.676321024147205,1000,conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap
+tight,opponent_proxy minus proxy_distribution,0.09718410411121424,-0.0002670549813307998,0.19576895973590114,1000,conditional on fitted models and sampled MC labels; stratified board-cluster bootstrap
