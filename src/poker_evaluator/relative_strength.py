@@ -1,7 +1,7 @@
 """Conditional showdown rank dispersion and equity under one shared deal law."""
 from collections import Counter
 from dataclasses import dataclass
-from itertools import combinations
+from itertools import combinations, accumulate
 from math import comb, fsum, sqrt
 from random import Random
 
@@ -152,15 +152,16 @@ def evaluate_relative_strength(hero, board, opponent_ranges, *, dead_cards=(), m
 
     def sample_cases():
         rng = Random(seed)
-        choices = [tuple(zip(*pool)) for pool in pools]
+        choices = [(tuple(h for h, _ in pool), tuple(accumulate(w for _, w in pool))) for pool in pools]
+        deck = create_deck()
         accepted = 0
         for _ in range(budget):
-            hands = tuple(rng.choices(h, weights=w)[0].cards for h, w in choices)
+            hands = tuple(rng.choices(h, cum_weights=w)[0].cards for h, w in choices)
             used = blocked+tuple(c for h in hands for c in h)
             if len(set(used)) != len(used):
                 continue
             used_set = set(used)
-            remaining = [c for c in create_deck() if c not in used_set]
+            remaining = [c for c in deck if c not in used_set]
             runout = tuple(rng.sample(remaining, missing))
             yield hero, board+runout, hands, 1.0
             accepted += 1

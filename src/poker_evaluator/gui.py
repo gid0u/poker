@@ -14,7 +14,7 @@ from .capture.models import Region
 from .capture.sources import ImageFileSource, OpenCVVideoSource
 from .storage import Repository
 from .studio import StudioService
-from .card_panel import CardPanel, RangePanel
+from .card_panel import CardPanel, RangePanel, edit_opponent_ranges
 
 
 class PokerStudio(ttk.Frame):
@@ -70,22 +70,25 @@ class PokerStudio(ttk.Frame):
         def save(value):
             entry.delete(0, 'end')
             entry.insert(0, value)
-        return RangePanel(self.root, entry.get(), save)
+        try:
+            return RangePanel(self.root, entry.get(), save)
+        except ValueError as exc:
+            messagebox.showerror('レンジ入力', str(exc))
 
     def relative_range_panel(self):
-        lines = self.relative_ranges.get('1.0', 'end').strip().splitlines()
+        lines = [line.strip() for line in self.relative_ranges.get('1.0', 'end').splitlines() if line.strip()]
         index = int(self.opponent_number.get()) - 1
+        if index > len(lines):
+            messagebox.showerror('相手人数', '相手は1人目から順番に追加してください。')
+            return
         def save(value):
-            if not value:
-                if index < len(lines):
-                    lines.pop(index)
-            else:
-                while len(lines) <= index:
-                    lines.append('random')
-                lines[index] = value
+            updated = edit_opponent_ranges(lines, index, value)
             self.relative_ranges.delete('1.0', 'end')
-            self.relative_ranges.insert('1.0', '\n'.join(lines))
-        return RangePanel(self.root, lines[index] if index < len(lines) else '', save)
+            self.relative_ranges.insert('1.0', '\n'.join(updated))
+        try:
+            return RangePanel(self.root, lines[index] if index < len(lines) else '', save)
+        except ValueError as exc:
+            messagebox.showerror('レンジ入力', str(exc))
 
     def build_input(self):
         toolbar = ttk.Frame(self.input_tab)
@@ -242,6 +245,10 @@ class PokerStudio(ttk.Frame):
     def analyze_relative(self):
         if not self.guard():
             return
+        self.relative_result = None
+        self.relative_text.configure(state='normal')
+        self.relative_text.delete('1.0', 'end')
+        self.relative_text.configure(state='disabled')
         from .seven_card_dictionary import SevenCardRankDictionary
         try:
             values = {k: entry.get().strip() for k, entry in self.relative_fields.items()}
@@ -263,7 +270,13 @@ class PokerStudio(ttk.Frame):
     def relative_done(self, result):
         from dataclasses import asdict
         self.relative_result = asdict(result)
-        text = (f'方式: {result.method} / 評価配布数: {result.outcomes:,}\n'
+        conditions = result.conditions
+        if 'pattern' in conditions:
+            summary = f"詳細X条件: {conditions['pattern']}"
+        else:
+            summary = f"自分: {' '.join(conditions['hero'])} / ボード: {' '.join(conditions['board']) or '未定'}"
+        text = (f'{summary}\n相手人数: {conditions["opponent_count"]}\n'
+                f'方式: {result.method} / 評価配布数: {result.outcomes:,}\n'
                 f'予想順位: {result.mean_rank:.6f}\n分散: {result.variance_rank:.6f}\n標準偏差: {result.standard_deviation_rank:.6f}\n\n'
                 f'単独勝率: {result.win_probability:.4%}\n引分け率（自分も勝者）: {result.tie_probability:.4%}\n敗率: {result.loss_probability:.4%}\n'
                 f'エクイティ（分割分を含む取り分）: {result.equity:.4%}\n'
@@ -288,6 +301,10 @@ class PokerStudio(ttk.Frame):
     def analyze_wildcards(self):
         if not self.guard():
             return
+        self.wildcard_result = None
+        self.wildcard_text.configure(state='normal')
+        self.wildcard_text.delete('1.0', 'end')
+        self.wildcard_text.configure(state='disabled')
         from .seven_card_dictionary import SevenCardRankDictionary
         from .wildcards import WildcardPattern
         try:

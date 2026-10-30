@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from itertools import product
+from itertools import product, accumulate
 from math import isfinite, fsum
 from random import Random
 
@@ -81,12 +81,13 @@ class MultiwayDealDistribution:
             raise ValueError("n must be a positive integer")
         rng = Random(seed)
         attempts = max_attempts if max_attempts is not None else max(10000, n * 1000)
-        pools = [tuple(zip(*r.entries)) for r in self.ranges]
+        pools = [(tuple(c for c, _ in r.entries), tuple(accumulate(w for _, w in r.entries)))
+                 for r in self.ranges]
         result = []
         # Reject the ENTIRE independent draw. Sequentially renormalizing each
         # remaining range would bias earlier players' marginal probabilities.
         for _ in range(attempts):
-            hands = tuple(rng.choices(c, weights=w)[0] for c, w in pools)
+            hands = tuple(rng.choices(c, cum_weights=w)[0] for c, w in pools)
             if self.legal(hands):
                 result.append(Deal(hands, 1 / n))
                 if len(result) == n:

@@ -2,8 +2,41 @@
 import re
 import tkinter as tk
 from tkinter import ttk
+from .range_parser import parse_range
 
 RANKS = 'AKQJT98765432'
+
+
+def range_cells(value):
+    """Expand existing range syntax to the exact set of 169 visible cells."""
+    if not value.strip():
+        return set()
+    if value.strip().lower() == 'random':
+        return {'random'}
+    cells = set()
+    rank_names = '23456789TJQKA'
+    for combo in parse_range(value):
+        a, b = sorted(combo.cards, key=lambda card: card.rank, reverse=True)
+        name = rank_names[a.rank-2] + rank_names[b.rank-2]
+        if a.rank != b.rank:
+            name += 's' if a.suit == b.suit else 'o'
+        cells.add(name)
+    return cells
+
+
+def edit_opponent_ranges(lines, index, value):
+    """Edit/delete one opponent or append the next, without inventing opponents."""
+    if not 0 <= index <= len(lines) or index >= 8:
+        raise ValueError('相手は順番に追加してください。途中の相手は自動追加しません。')
+    result = list(lines)
+    if index == len(result):
+        if value:
+            result.append(value)
+    elif value:
+        result[index] = value
+    else:
+        result.pop(index)
+    return result
 
 
 def renumber(tokens):
@@ -114,11 +147,12 @@ class CardPanel(tk.Toplevel):
 
 class RangePanel(tk.Toplevel):
     def __init__(self, parent, value, callback):
+        selected = range_cells(value)
         super().__init__(parent)
         self.title('相手レンジを選択')
         self.transient(parent.winfo_toplevel())
         self.callback = callback
-        self.selected = set(value.replace(' ','').split(',')) - {''}
+        self.selected = selected
         ttk.Label(self,text='対角線：ペア ／ 右上：同スート(s) ／ 左下：異スート(o)').pack(padx=10,pady=8)
         grid = ttk.Frame(self,padding=8)
         grid.pack()
