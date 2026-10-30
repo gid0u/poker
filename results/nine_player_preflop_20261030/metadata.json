@@ -1,0 +1,27 @@
+{
+  "seed": 20261104,
+  "samples_each": 300000,
+  "opponents": 8,
+  "participants": 9,
+  "range": "99+,AQs+,AKo",
+  "hero": {
+    "AA": "As Ac",
+    "22": "2s 2c",
+    "55": "5s 5c",
+    "65s": "6s 5s",
+    "A9o": "As 9c",
+    "AKs": "As Ks",
+    "AKo": "As Kc",
+    "72o": "7s 2c",
+    "32o": "3s 2c",
+    "42s": "4s 2s",
+    "42o": "4s 2c"
+  },
+  "random_method": "uniform ordered sample without replacement",
+  "tight_method": "sequential uniformly sample legal combos, weight by product of fraction of each prior still legal; normalize weights",
+  "board": "uniform remaining 5 cards after all hole cards",
+  "equity": "expected pot share including 1/k ties",
+  "interval": "normal approximation; self-normalized importance sampling SE from weighted residuals; asymptotic, per hand",
+  "limits": "all players reach showdown; no bet, fold, rake or side pots; self-normalized importance sampling may have finite-sample bias",
+  "elapsed_seconds": 112.08587908744812
+}

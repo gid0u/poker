@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "full_joint_rejection": [
+    {
+      "hand": "AA",
+      "method": "independent whole-joint rejection",
+      "samples": 4000,
+      "equity": 0.428125,
+      "se": 0.007585475059457077,
+      "importance_equity": 0.4174488158090102,
+      "importance_se": 0.0013911440569667603,
+      "combined_abs_z": 1.3843626639604407
+    },
+    {
+      "hand": "65s",
+      "method": "independent whole-joint rejection",
+      "samples": 4000,
+      "equity": 0.23297222222222222,
+      "se": 0.006676844184510115,
+      "importance_equity": 0.23756744439083888,
+      "importance_se": 0.0012735050112368212,
+      "combined_abs_z": 0.676045347104355
+    }
+  ],
+  "random_api": {
+    "hand": "65s",
+    "samples": 20000,
+    "equity": 0.1295944444444445,
+    "se": 0.002317454262022162,
+    "combined_abs_z": 1.466445335106098
+  },
+  "smallest_ess": 104418.72479499609
+}

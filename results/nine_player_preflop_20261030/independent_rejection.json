@@ -1,0 +1,16 @@
+[
+  {
+    "hand": "AA",
+    "method": "independent whole-joint rejection",
+    "samples": 4000,
+    "equity": 0.428125,
+    "se": 0.007585475059457077
+  },
+  {
+    "hand": "65s",
+    "method": "independent whole-joint rejection",
+    "samples": 4000,
+    "equity": 0.23297222222222222,
+    "se": 0.006676844184510115
+  }
+]
