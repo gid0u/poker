@@ -35,6 +35,16 @@ class RelativeStrengthTests(unittest.TestCase):
         self.assertEqual(result.loss_probability, 0)
         self.assertAlmostEqual(result.equity, 1/3)
 
+    def test_nine_player_limit_and_nine_way_split(self):
+        opponents = [[hand(rank+'c '+rank+'d')] for rank in '456789TJ']
+        result = evaluate_relative_strength('2c 3d', 'As Ks Qs Js Ts', opponents, mode='exact')
+        self.assertEqual(result.conditions['opponent_count'], 8)
+        self.assertEqual(result.outcomes, 1)
+        self.assertEqual(result.tie_probability, 1)
+        self.assertAlmostEqual(result.equity, 1/9)
+        with self.assertRaises(ValueError):
+            evaluate_relative_strength('2c 3d', 'As Ks Qs Js Ts', opponents + [[hand('Qc Qd')]], mode='exact')
+
     def test_joint_collisions_not_sequential_renormalization(self):
         ranges = [[hand('Kc Kh'), hand('Qc Qh')], [hand('Kc Kd'), hand('Jc Jh')]]
         exact = evaluate_relative_strength(HERO, BOARD, ranges, mode='exact')

@@ -25,7 +25,7 @@ with SevenCardRankDictionary() as table:
 ```
 
 自分の2枚は実カード。ボードは0/3/4/5枚、未公開分を合法な残りカードから補います。
-相手レンジは人数分のリスト（1〜8人）。`"random"` は全合法2枚コンボ、
+参加人数は自分を含め最大9人。相手レンジは人数分のリスト（相手1〜8人）。`"random"` は全合法2枚コンボ、
 `"AA,KK,AKs"` 等は既存レンジ表記です。APIではHandComboのリストや
 `WeightedRange(((combo,weight),...))` も使えます。`dead_cards`で除外カードを指定。
 

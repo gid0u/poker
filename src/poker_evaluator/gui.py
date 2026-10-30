@@ -218,7 +218,7 @@ class PokerStudio(ttk.Frame):
                 limit = {'hero':2,'board':5,'dead':52,'pattern':7}[name]
                 ttk.Button(form,text='パネルで選択',command=lambda e=entry,n=limit,w=name=='pattern':self.card_panel(e,n,w)).grid(row=i,column=2)
 
-        ttk.Label(tab, text='相手1人につき1行のレンジ（例 KK,QQ / AA,AKs / random）。全員ショーダウン参加を仮定。').pack(anchor='w')
+        ttk.Label(tab, text='相手1人につき1行、最大8人（自分を含め最大9人）。例 KK,QQ / AA,AKs / random。全員ショーダウン参加を仮定。').pack(anchor='w')
         self.relative_ranges = tk.Text(tab, height=3, wrap='word')
         self.relative_ranges.insert('1.0', 'KK,QQ')
         self.relative_ranges.pack(fill='x', pady=5)
